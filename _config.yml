@@ -1,6 +1,6 @@
-title: Minimal theme
-logo: /assets/img/logo.png
-description: Minimal is a theme for GitHub Pages.
-show_downloads: true
+title: Dennis 的資料夾
+logo: /assets/img/dennisAndBird.png
+description: 哈囉，我是 Dennis， 你可以叫我 DE， 這是我的中文名字的首字母取諧音。歡迎來到我的個人網站，主要成分是我的隨手筆記。
+show_downloads: false
 google_analytics:
 theme: jekyll-theme-minimal
