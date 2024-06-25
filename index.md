@@ -1,4 +1,7 @@
-哈囉，歡迎來到 Dennis Black 的個人網站，這個網站主要是我的筆記。
+### 俗話說得好：“學而不思則惘，思而不學則 die”
+
+---
+# 目次
 
 [untitled](note/Untitled)
 
