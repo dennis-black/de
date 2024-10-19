@@ -22,7 +22,9 @@
 ## 終端機
 [DE 的 nvim configuration](note/terminal/neovim.md)
 
-
+## 微處理機 Mega 2560
+<!--[DE 的 nvim configuration](note/terminal/neovim.md)
+-->
 ---
 
 
