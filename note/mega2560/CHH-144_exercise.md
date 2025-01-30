@@ -5,7 +5,7 @@ tags: [微處理機實習]
 ---
 
 ## 由左而右跑馬燈，顯示Hello World (改成你的英文名字)
-```arduino=
+```c
 #define Ls138_A 30
   #define Ls138_B 31
   #define Ls138_C 32
@@ -443,7 +443,7 @@ void low_74138pin(int num){
 ---
 ## 以4位按紐分別做為LED四位的加1減1按紐，利用4位指撥開關向上為加、向下為減。其中若0009，個位數再加1會進位變0010
 - 有接脚位衝突的問題
-```arduino=
+```c
 int num = 4;
 int DIPSWbase1 = 37, BTNbase1 = 33; // 第一個按鈕以及指撥開關的 I/O 脚位
 int DIPSW1state, DIPSW2state, DIPSW3state, DIPSW4state; //儲存指撥開關的狀態
@@ -653,7 +653,7 @@ void lightSegments(byte number){
 ```
 
 ## 實作紅綠燈小綠人，使用按鈕開關，從右到左依序為紅黃綠，按下按鈕後，給出特定動作
-```arduino=
+```c
   #define Ls138_A 30
   #define Ls138_B 31
   #define Ls138_C 32
@@ -904,7 +904,7 @@ void low_74138pin(int num){
 ```
 
 ## 8x8點矩陣亮㇐個燈，利用雙軸搖桿可控制上下左右
-```Arduino=
+```c
 #define Ls138_A 30
 #define Ls138_B 31
 #define Ls138_C 32
@@ -1080,7 +1080,7 @@ void low_74138pin(int num){
 ```
 
 ## 利用數字鍵與LCD做㇐個加減乘除的計算機
-```Arduino=
+```c
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 
@@ -1201,7 +1201,7 @@ void calculateResult() {
 
 ## 按鍵對應到七段顯示器，並輸入密碼1450，若輸入正確RGB LED亮綠燈，反之亮紅燈。按下C清除(七段顯示不亮)
 - 7段顯示器在輸入之後會顯示跑到最左邊，也就是不管輸入幾位數雖然看得到數字的殘影，但是到最後都會只顯示千位數
-```arduino=
+```c
 #include <Keypad.h>
 
 const byte rows = 4;

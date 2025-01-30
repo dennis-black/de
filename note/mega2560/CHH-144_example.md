@@ -7,7 +7,7 @@ tags: [微處理機實習]
 # Arduino Mega 2560 & CHH-144 範例
 
 ## 繼電器控制 範例 2-2-1 p7
-```Arduino=
+```c
 int RY5V = A4;
 void setup(){
   pinMode(RY5V, OUTPUT);
@@ -23,7 +23,7 @@ void loop(){
 ```
 
 ## 可變電阻控制蜂鳴器的頻率 範例 2-3-2 p10
-```Arduino=
+```c
 int buzzer = A9;
 int VR_pin = A0;
 int VR_value = 0; 
@@ -42,7 +42,7 @@ void loop(){
 ```
 
 ## 七段顯示器-顯示4位數 範例 2-4-3 p19
-```Arduino=
+```c
 #define CA1 30
 #define CA2 31
 #define CA3 32
@@ -155,7 +155,7 @@ void lightSegments(byte number){
 ```
 
 ## RGB LED 混光 範例 2-5-1(透過迴圈漸變顔色) p26
-```Arduino=
+```c
 int redPin = 44;
 int greenPin = 45;
 int bluePin = 46;
@@ -189,7 +189,7 @@ void loop(){
 ```
 
 ## 8x8點矩陣顯示器 範例 2-6-1 p31
-```Arduino=
+```c
 #define Ls138_A 30
 #define Ls138_B 31
 #define Ls138_C 32
@@ -311,7 +311,7 @@ void low_74138pin(int num){
 ```
 
 ## 4位指撥開關 範例 2-7-1 p37
-```Arduino=
+```c
 int DIPSWbase = 2;
 int num = 4;
 int DIPSWbase1 = 37; // 第一個指撥開關的 I/O 脚位
@@ -348,7 +348,7 @@ void loop() {
 ```
 
 ##  4位按鈕開關 範例 2-8-1 p41
-```Arduino=
+```c
 int BTNbase = 6;
 int num = 4;
 int BTNbase1 = 33; // 第一個按鈕的 I/O 脚位
@@ -383,7 +383,7 @@ void loop() {
 ```
 
 ##  4x4鍵盤 範例 2-9-1 p45
-```Arduino=
+```c
 #include <Keypad.h>
 const byte rows = 4;
 const byte cols = 4;
@@ -410,7 +410,7 @@ void loop(){
 ```
 
 ##  雙軸搖桿模組 範例 2-11-1 p49
-```Arduino=
+```c
 int joyPinX = A1;
 int joyPinY = A2;
 int sw = A3;
@@ -444,7 +444,7 @@ void loop(){
 ```
 
 ##   LCD液晶模組 範例 2-12-1 p55
-```Arduino=
+```c
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(49,48,47,43,42,41);
 void setup(){
@@ -465,7 +465,7 @@ void loop(){
 ```
 
 ##   LCD與4x4鍵盤 範例 2-12-2 p56
-```Arduino=
+```c
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(49,48,47,43,42,41);

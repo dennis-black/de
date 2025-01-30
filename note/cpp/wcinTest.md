@@ -7,7 +7,7 @@ tags: [測試]
 # C++ 中文輸入測試
 
 ## 範例程式碼1（尋找水果價格）
-```cpp=
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -53,7 +53,7 @@ int main()
 
 ### Windows 程式碼改寫
 1. 註解部分程式碼並且更正程式碼如下，需要為標準輸入與標準輸出特別設定編碼模式，如程式碼中的選擇1與選擇2，執行時選定其中一組並註解掉另外一組
-```cpp=
+```cpp
 #include <iostream>
 #include <fcntl.h>
 using namespace std;
@@ -97,7 +97,7 @@ int main()
 
 ```
 執行結果：
-```=
+```
 PS C:\Users\dennis\testField> g++ .\test.cpp
 PS C:\Users\dennis\testField> .\a.exe
 請輸入水果名稱: 蘋果
@@ -118,7 +118,7 @@ PS C:\Users\dennis\testField>
 
 ### MacOS 程式碼改寫
 1. 註解部分程式碼並且更正程式碼如下，在 wcin 與 wcout 分別設定使用了 code convert 支援寬字元且於輸入與輸出皆使用 utf8 的編碼方式
-```cpp=
+```cpp
 #include <iostream>
 #include <codecvt>
 using namespace std;
@@ -156,7 +156,7 @@ int main()
 }
 ```
 執行結果：
-```=
+```
 ~/dennisSync/DE/coding/testField/cpp_wideChar g++ test.cpp                               
 ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
 請輸入水果名稱: 蘋果
@@ -174,7 +174,7 @@ int main()
 
 ---
 ## 範例程式碼2（w_char 寬字元陣列輸出串接， wchar_t.cpp）
-```cpp=
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -203,7 +203,7 @@ int main()
 }
 ```
 ### windows 程式碼改寫
-```cpp=
+```cpp
 #include <iostream>
 #include <fcntl.h> // for _O_U16TEXT
 using namespace std;
@@ -236,7 +236,7 @@ int main()
 
 ```
 執行結果：
-```=
+```
 PS C:\Users\dennis\testField> g++ .\wchar_t.cpp
 PS C:\Users\dennis\testField> .\a.exe
 請輸入你的名字:租大鴿  
@@ -244,7 +244,7 @@ PS C:\Users\dennis\testField> .\a.exe
 PS C:\Users\dennis\testField>
 ```
 ### mac 程式碼改寫
-```cpp=
+```cpp
 #include <iostream>
 #include <codecvt>
 using namespace std;
@@ -277,7 +277,7 @@ int main()
 }
 ```
 執行結果：
-```=
+```
 ~/dennisSync/DE/coding/testField/cpp_wideChar g++ wchar_t.cpp
 ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out
 請輸入你的名字:租大鴿
@@ -290,7 +290,7 @@ int main()
 
 ---
 ## 範例程式碼3（wstring 與 w_char 輸出串接，wstring.cpp）
-```cpp=
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -320,7 +320,7 @@ int main()
 ```
 
 ### windows 程式碼改寫
-```cpp=
+```cpp
 #include <iostream>
 #include <fcntl.h> // for _O_U16TEXT
 using namespace std;
@@ -352,7 +352,7 @@ int main()
 }
 ```
 執行結果：
-```=
+```
 PS C:\Users\dennis\testField> g++ .\wstring.cpp
 PS C:\Users\dennis\testField> .\a.exe
 請輸入你的名字:丹尼斯
@@ -361,7 +361,7 @@ PS C:\Users\dennis\testField>
 ```
 
 ### mac 程式碼改寫
-```cpp=
+```cpp
 #include <iostream>
 #include <codecvt>
 using namespace std;
@@ -394,7 +394,7 @@ int main()
 }
 ```
 執行結果：
-```=
+```
 ~/dennisSync/DE/coding/testField/cpp_wideChar g++ wstring.cpp
 ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out
 請輸入你的名字:丹尼斯
