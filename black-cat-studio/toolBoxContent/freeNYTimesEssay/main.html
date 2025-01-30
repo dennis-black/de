@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>免費閱讀 New York Times 的文章</h1>
+        <!-- <h2>for Windows</h2> -->
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <h2>真正意義上的比手速</h2>
+            <p>
+                各位在準備英文考試的時候往往需要大量閱讀，也許你可以嘗試
+                讀讀看 New York Times，這是一個用詞比較難的雜誌。
+                可是這是一個需要付費訂閱的（網頁版的）雜誌，每週要付50美分，
+                也就是說一個月要付2美元，換算成台幣大概就是每個月60塊。
+                是說60塊不貴，但是我們能夠做到不花錢就能瀏覽文章。
+                </br></br>
+                <a href="nytWebsite.png" target="_blank"><img src="nytWebsite.png"></a>
+                </br>
+                操作步驟如下：
+                <ol>
+                    <li><a href="https://www.nytimes.com/" target="_blank">先前往 New York Times</a>
+                        找到你想要看的文章的標題，直接點開或是點右鍵用新無痕分頁打開。
+                        <a href="chooseAnEssay.png" target="_blank"><img src="chooseAnEssay.png" style="max-width: 200px; float:left;"></a>
+                        <a href="openLink.png" target="_blank"><img src="openLink.png" style="max-height: 260px;"></a>
+                    </br>
+                    </li>
+                    <li>
+                        這時候他的要求你訂閱或是要求登入才能顯示文章內容的視窗會遮擋網頁。
+                        在這個彈出式視窗顯示之前按下快捷鍵:
+                        </br></br>
+                        ctrl + A(全選)，然後 ctrl + c (複製)
+                        </br>
+                        也就是 ctrl 按著，接著按一下A再按一下C
+                        </br></br>
+                        此時就成功的複製到整篇文章了，我們就可以黏貼到我們的word去看文章的內容了。
+                        雖然這樣做非常的耗時，但是我們可以一次就對好幾個文章下手，之後就可以一次看好幾篇了。
+                        </br></br>
+                        Tips：還可以結合ChatGpt直接翻譯，也可以讓ChatGPT逐句翻譯，如此一來不論文章裡面有多艱澀的詞也不需要擔心了。
+                        </br>
+                        <a href="translateBySentence.png" target="_blank"><img src="translateBySentence.png"></a>
+                    </li>
+                </ol>
+            </p>
+            <h4 style="float: right;">更新時間: Sept. 29 2023</h4>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

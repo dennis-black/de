@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>資料隨機抽樣器</h1>
+    </header>
+    <main>
+        <button onclick="history.back()">返回到上一頁</button>
+        <button onclick="location.href='../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <p>這是一個資料隨機抽樣器，以換行作為每一筆數據的分隔</br>
+            請在下方文字欄中輸入您要隨機抽樣的資料：</p>
+            <button onclick="clearTextarea()">清空輸入欄位</button></br></br>
+            <textarea id="userInput" style="height: 200px; width: 100%;"></textarea>
+            </br>
+            <p>要從上述資料中抽樣幾筆：<input id="dataQuantity" type="number" style="width: 40px" value="1" min="1"></p>
+            <button onclick="randomSelect()">隨機抽樣</button>
+            <p class="output"></p>
+            <!-- <h1 class="output"></h1> -->
+        </article>
+        <script>
+            async function randomSelect() {
+                var textareaContent = document.getElementById('userData').value;
+                var dataQuantity = document.getElementById('dataQuantity').value;
+                var dataArray = textareaContent.split('\n').filter(Boolean);
+
+                var outputElement = document.querySelector('.output');
+
+                var randNum = Math.floor(Math.random() * 20);
+                var delay = 30; // 每次抽樣間隔時間（毫秒）
+
+                for (var j = 0; j < dataQuantity; j++) {
+                    for (var i = 0; i < randNum; i++) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        var randomIndex = Math.floor(Math.random() * dataArray.length);
+                    }
+                    var output = document.createElement('p'); // 使用 <p> 元素
+                    output.textContent = '' + dataArray[randomIndex];
+                    outputElement.insertAdjacentElement('afterend', output); // 在 h1 元素後面插入 <p> 元素
+                     // 在 h1 元素後面插入 <p> 元素
+                }
+
+                showCurrentTime();
+            }
+
+            function showCurrentTime(){
+                var currentTime = new Date();
+                var hours = currentTime.getHours();
+                var minutes = currentTime.getMinutes();
+                var seconds = currentTime.getSeconds();
+                var recTime = hours + ":" + minutes + ":" + seconds;
+
+                var newP = document.createElement('p');//生成一個p元素
+                newP.textContent =  recTime + "隨機抽樣結果："; // 每次抽樣的標題
+                outputElement.insertAdjacentElement('afterend', newP);
+            }
+
+            function clearTextarea(){  //清空文字欄
+                var textareaContent = document.getElementById('userInput');
+                textareaContent.value = "";
+            }
+            /*alert 抽樣數不得小於1
+            check 抽樣資料可不可重複
+            新增清空抽樣結果*/
+        </script>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

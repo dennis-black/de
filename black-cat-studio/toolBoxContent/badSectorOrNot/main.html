@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>隨身碟/硬碟壞軌了嗎？</h1>
+        <h3>(for windows)</h3>
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../index.html'">回到首頁</button></br></br>
+        <article>
+            <h2>Better safe than sorry - 有備無患</h2>
+            <p>
+                你是否會擔心沒有備份資料的隨身碟或硬碟突然壞軌？
+                相信我，如果是很重要且沒有備份的資料若是突然消失或是無法取得對於所有人來說肯定是心急如焚。
+                為了避免突然發生這種惡夢，我們還是有一些預防措施。
+                </br></br>
+                壞軌是硬碟上的部分區域損壞導致無法正常讀寫的區域。
+                壞軌又分成兩種，一種是物理性壞軌，另外一種是邏輯性壞軌。
+                </br></br>
+                邏輯性壞軌：主要是不正常的軟體操作導致的，是磁軌結構異常，可能可以透過格式化來修復壞軌區域
+                </br></br>
+                物理性壞軌：磁軌上已經有實際摩擦損壞的部分了，是無法修復的
+                </br></br>
+                當然囉，邏輯性壞軌也不一定可以靠格式化來修復；物理性壞軌可能因為讀寫異常或是摩擦導致壞軌。
+                而且物理性壞軌可怕的地方是壞軌區域會“傳染”，磁區損壞面積有極大可能會擴大，我們不可能有那麼多時間去判斷這是哪種壞軌，
+                因此我都會將這兩種壞軌視為最嚴重的物理性壞軌，只要我發現硬碟有壞軌，就立刻開始備份。
+                </br></br>
+                那要怎麼發現硬碟上有壞軌呢？今天要來跟大家介紹“Hard Disk Validator”。
+                </br></br>
+                <a href="https://github.com/TalAloni/HardDiskValidator/releases" target="_blank">這是 Hard Disk Validator 的 GitHub 倉庫</a>，
+                今天要下載的東西就在這裡，請按照以下步驟下載。
+                <ol>
+                    <li>點擊"Hard Disk Validator_1.1.2.zip"
+                        </br>
+                        <a href="downloadZip.png" target="_blank"><img src="downloadZip.png"></a>
+                        </br></br>
+                    </li>
+                    <li>解壓縮文件夾
+                        </br>
+                        <a href="excractZip.png" target="_blank"><img src="excractZip.png"></a>
+                        </br></br>
+                    </li>
+                    <li>在剛才解壓縮的檔案中點擊"net40"，接著點開應用程式
+                        </br>
+                        <a href="openFolder.png" target="_blank"><img src="openFolder.png"></a>
+                        </br></br>
+                    </li>
+                    <li>選擇要掃描的硬碟或是隨身碟，接著按下start
+                        </br>
+                        <a href="chooseUSBAndStart.png" target="_blank"><img src="chooseUSBAndStart.png"></a>
+                        </br></br>
+                    </li>
+                    <li>等待直到每一個區塊都被掃瞄過，綠色表示區塊暫時沒事，紅色表示區塊受損，必須在一切都變得太晚之前儘快備份
+                        </br>
+                        <a href="completed.png" target="_blank"><img src="completed.png"></a>
+                    </li>
+                </ol>
+                </br></br>
+                強烈建議常常使用的硬碟(HDD,SSD)、隨身碟、SD、micro SD...
+                所有的儲存裝置每兩個月檢查一次有沒有壞軌，
+                那些沒有很常使用的儲存裝置則是每半年左右檢查一次。
+                </br></br>
+                <hr>
+                <h4>發生在我身上的鳥事</h4>
+                在我升上高中的時候，我為我的手機插上記憶卡，並且把所有照片都預設儲存到記憶卡上面。
+                天真的我以為我每年只需要備份記憶卡的照片就好了，如此一來備份將會是一個很簡單的工作。
+                過了一段時間，我需要找一些照片才發現文件管理系統會莫名奇妙的閃退，
+                不斷告知我要格式化micro SD我才能繼續使用，因此我認為我的手機可能壞掉了。
+                接著我將手機連上電腦去取得我要的資料，最後電腦也是一直叫我格式化micro SD，
+                原本讀得到的照片又馬上消失，我就重複連接電腦好幾次，試圖挽救記憶卡裡面超過三千張的照片。
+                突然有一個想法閃過我的腦海：有沒有可能是記憶卡壞軌了？
+                因此我就用Hard Disk Validator去掃記憶卡確認問題。結果是我猜對了的確有壞軌，
+                但是沒想到有1/3到1/2的面積都壞軌了。
+                </br></br>
+                因為無法取得裡面的照片，所以我只能先將記憶卡收起來。
+                </br></br>
+                大概又過了半年，我又發現了這張記憶卡，拿去電腦讀讀看。
+                裡面大約出現了一千五百張的照片，我就馬上先把這張照片拷貝到我的電腦裡面了，
+                另外一半的照片因為儲存的磁軌壞掉了，最後我也只能將那張記憶卡格式化最後丟掉了。
+            </p>
+            <h4 style="float: right;">更新時間: Sept. 29 2023</h4>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

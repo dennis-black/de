@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>使用Arduino Uno板以及RC522複製磁扣UID</h1>
+        <!-- <h2>for Windows</h2> -->
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <h2>動手複製自己的門禁磁扣</h2>
+            <p>
+                <h3>要準備的東西</h3>
+                <ol>
+                    <li>
+                        電腦一台(mac、windows或是linux都可以，我會拿mac來演示)
+                        </br></br>
+                    </li>
+                    <li>
+                        在蝦皮或是露天上面購買能夠改寫UID的磁扣或是卡片，這種磁扣又稱為水卡(第0區塊能夠自由讀寫)
+                        平均一個磁扣的價格大約落在9~13元的新台幣
+                        </br></br>
+                    </li>
+                    <li>
+                        Arduino Uno板一個(網路上買會比較便宜，大概300有找。不一定要原廠的arduino UNO，原廠的超級貴)
+                        </br></br>
+                    </li>
+                    <li>
+                        RC522模組一個(需要先將腳位焊接好，網路上大概是賣100元上下)
+                        </br></br>
+                    </li>
+                    <li>
+                        USB-B to USB-A 傳輸線一條
+                        </br></br>
+                    </li>
+                    <li>
+                        公對母跳線(杜邦線)數條</br>若是只有公對公的跳線則還需要麵包板
+                        </br></br>
+                    </li>
+                </ol>
+
+                <h3>跟我一起動手做</h3>
+                <ol>
+                    <li>
+                        首先要去下載
+                        <a href="https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE" target="_blank">
+                        Arduino IDE</a>，這是一個支援Arduino所有開發板開發環境的一個軟體
+                        </br></br>
+                    </li>
+                    <li>將Arduino Uno 與 RC522 按照下列指示用跳線接再一起，
+                        再使用USB-B to USB-A 傳輸線將Uno板接上電腦，你可以透過 <a href="https://randomnerdtutorials.com/security-access-using-mfrc522-rfid-reader-with-arduino/" target="_blank">
+                        Random Nerd Tutorials</a>
+                        得到更多的資訊
+                        <a href="connection.png"><img style="float: right; max-width: 300px;"src="connection.png" ></a>
+                        </br></br></br>
+                        <table style="border: 1px solid;" rules="all">
+                            <tr>
+                                <td>RC522接腳</td>
+                                <td>Arduino接腳</td>
+                            </tr>
+                            <tr>
+                                <td>SDA</td>
+                                <td>Digital 10</td>
+                            </tr>
+                            <tr>
+                                <td>SCK</td>
+                                <td>Digital 13</td>
+                            </tr>
+                            <tr>
+                                <td>MOSI</td>
+                                <td>Digital 11</td>
+                            </tr>
+                            <tr>
+                                <td>MISO</td>
+                                <td>Digital 12</td>
+                            </tr>
+                            <tr>
+                                <td>IRQ</td>
+                                <td>不連線</td>
+                            </tr>
+                            <tr>
+                                <td>GND</td>
+                                <td>GND</td>
+                            </tr>
+                            <tr>
+                                <td>RST</td>
+                                <td>Digital 9</td>
+                            </tr>
+                            <tr>
+                                <td>3.3V</td>
+                                <td>3.3V</td>
+                            </tr>
+                        </table>
+                        </br></br></br>
+                    </li>
+                    <li>因為Arduino已經有控制RC522的程式範本了，我們可以直接下載RC522的library
+                        </br></br>
+                        步驟一：點開sketch選單，在include Library中找到 Manage Library 並點擊
+                        <a href="downloadLib_1.png" target="_blank"><img src="downloadLib_1.png"></a>
+                        </br></br>
+                        步驟二：再搜尋欄位中尋找“RC522”後，再搜尋結果找到“MFRC522”並且點擊下載，
+                        因為我已經有下載了所以我顯示的是“REMOVE”。此時，Library就已經下載成功了。
+                        <a href="downloadLib_2.png" target="_blank"><img src="downloadLib_2.png"></a>
+                        </br></br>
+                    </li>
+                    <li>我們必須要再次確認我們的Uno開發板已經讓電腦連上對的埠號</br>
+                        <a href="boardConnected.png" target="_blank"><img src="boardConnected.png"></a>
+                        </br></br>
+                    </li>
+                    <li>我們有一張學生證，因為門禁系統有這張學生證的UID，
+                        因此這張學生證能夠進出宿舍。也就是說我將一張能夠更改UID的磁扣改成這張學生證的UID，
+                        我就能利用這張磁扣進出宿舍了，因為門禁系統能夠與這個UID資料匹配。
+                        </br></br>
+                        現在我們要來查看這張學生證的UID，並且將這4組16進位的數字記下來
+                        </br></br>
+                        步驟一：依照下圖找到Dumpinfo
+                        <a href="intoDumpinfo.png" target="_blank"><img src="intoDumpinfo.png"></a>
+                        </br></br>
+                        步驟二：
+                        </br>*1.點擊上傳按鈕，將範例程式上傳到開發板上
+                        </br>*2.等待程式碼編譯，若output沒有出現紅色字體的字就表示程式碼是沒有問題的
+                        </br>*3.點擊serial monitor 觀察與開發板的互動
+                        <a href="uploadAndMonitor.png" target="_blank"><img src="uploadAndMonitor.png"></a>
+                        </br></br>
+                        步驟三：將學生證放在RC522上感應，透過觀察serial monitor 我們可以知道我的學生證的UID是 F2 F4 8A 1B
+                        <a href="swipeStuID.png" target="_blank"><img src="swipeStuID.png"></a>
+                        <a href="uidMain.png" target="_blank"><img src="uidMain.png"></a>
+                        </br>
+                        </br></br>
+                    </li>
+                    <li>現在我們要將這組學生證上的UID寫進水卡裡面
+                        </br></br>
+                        步驟一：依照下圖找到ChangeUID
+                        <a href="intoChangeuid.png" target="_blank"><img src="intoChangeuid.png"></a>
+                        </br>
+                        步驟二：
+                        </br>將我們剛才得知的學生證UID輸入到程式碼36行的define，請注意這是16進位的數字，因此前面要加“0x”。
+                        </br>*1.點擊上傳按鈕，將範例程式上傳到開發板上
+                        </br>*2.等待程式碼編譯，若output沒有出現紅色字體的字就表示程式碼是沒有問題的
+                        </br>*3.點擊serial monitor 觀察與開發板的互動
+                        <a href="insertNewUID.png" target="_blank"><img src="insertNewUID.png"></a>
+                        <a href="newUploadAndMonitor.png" target="_blank"><img src="newUploadAndMonitor.png"></a>
+                        </br></br></br>
+                        步驟三：將水卡放在RC522上感應，透過觀察serial monitor 我們會發現我們的水卡UID已經變成我們
+                        學生證的UID了
+                        <a href="swipeToCopy.png" target="_blank"><img src="swipeToCopy.png"></a>
+                        <a href="uidChanged.png" target="_blank"><img src="uidChanged.png"></a>
+                        </br></br></br>
+                    </li>
+                    <li>最後，你就可以去試試看門禁系統能不能接受這個磁扣了
+                        </br></br>
+                    </li>
+                </ol>
+                註：如果沒辦法正確上傳程式碼但是你非常確定你沒有動到程式碼其他的地方，
+                你可以去確認一下定義的腳位是否正確</br>
+                <a href="checkPin.png" target="_blank"><img src="checkPin.png"></a>
+                26~33行的註解是告訴使用者不同開發板有不同腳位的定義，如Uno板的 RST 是 9 號腳位；SS 是 10 號腳位。
+                因此我們要確認程式碼中第41~42行中是否符合上表，若不符合則更正。
+            </p>
+            <h4 style="float: right;">更新時間: Sept. 29 2023</h4>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

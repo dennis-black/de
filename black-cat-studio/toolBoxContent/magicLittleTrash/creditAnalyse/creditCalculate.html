@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo {
+            background-color: rgb(95, 106, 112);
+            border-radius: 5px;
+        }
+
+        .backTo:hover {
+            background-color: rgb(49, 68, 83);
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* 表格樣式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        td input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+            color: blue;
+        }
+
+        .condition-list td:first-child {
+            text-align: left;
+        }
+
+        .condition-list .condition-status span {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .condition-list .condition-status span[style="color: red;"] {
+            background-color: #ffe5e5;
+            color: red;
+        }
+
+        .condition-list .condition-status span[style="color: green;"] {
+            background-color: #c2f2d0;
+            color: green;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 20px 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>屏東大學111級資工系</br>學分計算機</h1>
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <p>
+                <p>
+                    聲明：該網站架設係透過GitHub Pages，僅支援全前端的網頁碼，因此這個網站不會紀錄任何資訊，也無法紀錄任何資訊，所有的計算過程全部由使用者端的瀏覽器進行。
+                </p>
+                <p>使用說明：
+                    <ol>
+                        <li>
+                            本學分計算機僅限“國立屏東大學-資訊工程學系”的學生使用。
+                            </br></br>
+                        </li>
+                        <li>
+                            本計算機的學分計算方式是依照111年入學的“<a href="https://mega.nz/folder/XUFXhKwa#BAUqj1YqTfJXWJuJu3mj3Q" target="_blank">資訊工程學系-學生手冊</a>”
+                            中列出的科目進行學分計算，若您同樣為適用此學生手冊的學生也能夠使用本計算機。
+                            </br></br>
+                        </li>
+                        <li>
+                            本學分計算機僅能計算資工系學生手冊中條列的系必修、系選修以及共同教育中心開設的通識課程。若您曾經修習過其他科系的課程學分加總將無法正確計算。
+                            </br></br>
+                        </li>
+                        <li>
+                            若使用者輸入的成績欄位中有“抵修”的科目，學分計算機會將該科目以60分計算。</br></br>
+                        </li>
+                        <li>
+                            有鑑於使用手機複製貼上時手機可能會自動裁切空格造成錯誤，因此請儘量使用電腦操作。</br></br>
+                        </li>
+                        <li>
+                            根據學生手冊第19頁的通識課程架構圖中的跨院選修2學分，可以透過以下方式獲得
+                            <ul>
+                                <li>選修其它學院課程（推薦程度：高），直接去別的學院的任一個學系修 2 學分的課</li>
+                                <li>跨院微學分選修（推薦程度：中），有時候要晚上上課而且必須於特別時間選課</li>
+                                <li>屏大卓越講座，上一次開課的學期是3年前（110-2），基本上不用考慮</li>
+                                <li>自我導向學習，請參考<a href="https://cis.nptu.edu.tw/p/406-1099-134510,r2607.php?Lang=zh-tw" target="_blank">跨領域學程中心</a></li>
+                            </ul>
+                            因爲學校會開新的課程，開發人員也無法收錄全校所有的課程編號，因此這個計算機<span style="color: red;">預設的計算方式將假設使用者都是透過選修其它學院課程來獲得跨院選修學分</span>，並且於分析表格中以“自由選修”學分數顯示跨院選修的學分數（請特別注意，任何從非資工系大學部課程獲得的學分將會計入自由選修的學分。若只是想要取得跨院選修的兩學分，請不要修習資訊學院其他系的課程如：電通，機器人...），<span style="color: red;">請使用者針對本項加以確認</span>。
+                            </br></br>
+                        </li>
+                        <li>
+                            根據 <a href="https://mega.nz/folder/XUFXhKwa#BAUqj1YqTfJXWJuJu3mj3Q" target="_blank">資訊工程學系-學生手冊</a> 第20頁的註解，以及第26頁表格右下角第二點之敘述“資訊課程資訊學院各系所不必修習，不足學分數（2學分）將由博雅教育課程補足”。也就是說對於資工系的我們來講，<span style="color: red;">第19頁的博雅教育10~12學分會變成12~14學分</span>
+                        </li>
+                    </ol>
+                    操作步驟：
+                    <ol>
+                        <li>
+                            登入“<a href="https://webap.nptu.edu.tw/web1/Secure/default.aspx" target="_blank">國立屏東大學-學生資訊系統</a>”
+                            </br></br>
+                        </li>
+                        <li>
+                            登入後再左邊選單點選“[A081]_線上查詢”
+                            </br></br>
+                        </li>
+                        <li>
+                            在“[A081]_線上查詢”選單中點選“[A0731S]_已修學分資料查詢”，
+                            你就會看到所有曾經修過以及目前正在修習的課程
+                            </br></br>
+                        </li>
+                        <li>
+                            從修課學年期開始左鍵拖曳選取第一筆資料，一直到最後一筆資料的最後一個字並複製到下方的文字輸入欄
+                            <a href="instruction.png" target="_blank"><img src="instruction.png"></a>
+                            </br></br>
+                        </li>
+                        <li>
+                            最後，按下 “開始分析” 按鈕並按照指示操作，網頁就能夠幫你完成學分的計算
+                            </br></br>
+                        </li>
+
+                    </ol>
+                    <p>若可能是因爲網頁的問題導致學分的計算結果是有問題的，請<a href="./../../../aboutMe.html" target="_blank">讓我知道</a>，謝謝您。</p>
+                </p>
+                <div>
+                    <button onclick="clearTextarea()" id="clearButton">清空輸入欄</button>
+                    <button onclick="importTemplate()" id="importTemplateButton">導入模板</button>
+    
+                </div>
+                </div></br>
+                <textarea id="userInput" style="height: 300px; width: 100%;"></textarea>
+                <br>
+                <button id="processButton" onclick="processCredit()">開始分析</button>
+                <p class="checkInput"><ol class="inputList"></ol></p>
+            </p>
+            <h4 style="float: right;">更新時間: Jun. 30 2025 &nbsp; Version 3.4</h4>
+        </article>
+        <script src="calculate.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
+
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

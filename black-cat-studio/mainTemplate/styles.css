@@ -1,0 +1,94 @@
+/* 全域樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #d9eaf7;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 頁首樣式 */
+header {
+    background-color: #1e66aa;
+    color: white;
+    padding: 15px 20px;
+    text-align: left;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+nav .logo {
+    height: 50px;
+    margin-right: 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #00264d;
+}
+
+/* 主要內容區域 */
+section {
+    padding: 50px 20px;
+    text-align: left;
+    background-color: #f2f5f7;
+    border-left: 5px solid #6699cc;
+    margin: 10px 0;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: #004080;
+}
+
+p {
+    font-size: 18px;
+}
+
+/* 頁尾樣式 */
+footer {
+    background-color: #1e66aa;
+    color: white;
+    text-align: left;
+    padding: 15px;
+    position: relative;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+}

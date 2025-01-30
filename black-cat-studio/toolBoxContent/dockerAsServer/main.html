@@ -1,0 +1,696 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>使用Docker在本機端架設伺服器</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4b3e3ffb-1208-4693-ba01-05a5ba965941" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/docker.png"/></div><h1 class="page-title">使用Docker在本機端架設伺服器</h1><p class="page-description"></p><table class="properties"><tbody></tbody></table></header><div class="page-body"><h2 id="c30d1ca6-c427-4f71-9f94-96917d263e55" class="">說明：</h2><p id="099d7aeb-cfd1-4b70-9303-b98c7ebfe107" class="">今天我們要學習如何搭建一個 LAMP 伺服器環境，什麼是 LAMP？</p><p id="eae008b8-8884-4268-a98b-f372b3dfaf7d" class="">LAMP:</p><ol type="1" id="65859e0d-0138-4739-afb4-f4e3155ee28a" class="numbered-list" start="1"><li>L: Linux，我們使用 Ubuntu </li></ol><ol type="1" id="ce4842e3-d329-4760-afed-cb296234b731" class="numbered-list" start="2"><li>A: Apache2，這是一個網頁伺服器</li></ol><ol type="1" id="47095056-7fa0-408c-83d3-d4add2626133" class="numbered-list" start="3"><li>M: Mysql or MariaDB，這是資料庫</li></ol><ol type="1" id="cc8d8f1d-a17a-402f-a68a-61c135ef499a" class="numbered-list" start="4"><li>P: php，這是一種後端語言</li></ol><p id="28329960-f3bd-4a76-9fd1-78fa3bd23971" class="">
+</p><hr id="84b60363-e0b0-472c-925e-57b75bed298c"/><h2 id="4c739d61-b333-449b-b6cb-046985f5ba60" class="">事前準備：</h2><ol type="1" id="275054fd-bf8c-4592-acdc-7f355f233cdf" class="numbered-list" start="1"><li>準備一台能夠承受 docker 高負載的電腦</li></ol><ol type="1" id="39de064c-0559-43ba-bbe0-879909306498" class="numbered-list" start="2"><li>在電腦上下載 VScode，並且安裝插件 <strong>Remote Explorer </strong></li></ol><ol type="1" id="81a0b9a7-3bb9-4aa6-bdcb-2c428e378c01" class="numbered-list" start="3"><li>安裝 docker 桌面版</li></ol><p id="324e183c-6c4b-4d39-a355-0919695bdf5a" class="">
+</p><hr id="04db5210-d6de-496a-b91b-b9bf7a18f0ff"/><h2 id="7a81c967-b4f3-425f-934c-ad9454a1f3c5" class="">操作步驟：</h2><ol type="1" id="050b0a9e-862c-40ab-97b5-0be99153e05b" class="numbered-list" start="1"><li>打開你的 docker 桌面版以及終端機(Mac)或命令提示字元(Windows)，在終端機裡輸入尋找 docker 能夠安裝的  ubuntu 官方映像檔指令<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="59859d41-a044-46c2-9487-a82704690dde" class="code"><code class="language-Shell">docker search ubuntu -f is-official=true</code></pre><figure id="24f9cb6a-64cf-447e-ae8b-167eddd7a24a" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.11.11.png"><img style="width:2488px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.11.11.png"/></a></figure><p id="26042ae5-f4f5-410c-89ba-c7ee7803ee90" class="">你會看到第一個項目是 ubuntu，有最多的 stars，是官方的版本</p><p id="50e7bd9d-26b1-4298-bd63-db88868b3932" class="">
+</p></li></ol><ol type="1" id="456bd883-43ee-4595-bdd8-15e44f7deeea" class="numbered-list" start="2"><li>現在我們要取得這個作業系統的映像檔，在終端機裡輸入取得映像檔的指令<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bdaad554-8d49-41f1-8fc6-dc2807481ed9" class="code"><code class="language-Shell">docker pull ubuntu</code></pre><figure id="2ab560ed-06b2-4e87-84b2-51babbaad7f4" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.16.50.png"><img style="width:2488px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.16.50.png"/></a></figure><p id="ceb915dc-1a04-4729-9056-c141f999c3b8" class="">當你取得映像檔後顯示如上，表示成功獲得映像檔</p><p id="7f710ae0-9000-44f7-9123-3932786ab079" class="">
+</p></li></ol><ol type="1" id="99051e82-a9a8-4da7-9c9e-87d7143869a2" class="numbered-list" start="3"><li>你可以查看你取得的映像檔<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36e44a94-2499-4c2b-8a4c-7f9daef02e68" class="code"><code class="language-Shell">docker images</code></pre><figure id="197f5473-d550-4504-8f24-421af0d55f6a" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.19.28.png"><img style="width:912px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.19.28.png"/></a></figure><p id="fbef75d4-0131-48e6-b650-df2d240f2b07" class="">
+</p></li></ol><ol type="1" id="adbeb204-9444-4008-a556-a205ac011ce7" class="numbered-list" start="4"><li>接著我們現在要用這個映像檔執行這個作業系統了，輸入以下指令：<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b47259b-ecfc-49e8-966c-93ae74218234" class="code"><code class="language-Shell">docker run -it -d -p 5080:80 -p 5022:22 --name=&quot;Linux_Ubuntu&quot; --privileged ubuntu  /bin/bash</code></pre><ul id="fad25be1-7d0a-46f2-ad68-96b16d5c9ead" class="bulleted-list"><li style="list-style-type:disc">docker run: create and run a container</li></ul><ul id="64af9e1e-e3d8-489e-9c3d-d15ae9c3908a" class="bulleted-list"><li style="list-style-type:disc">-it: interactive and generate a tty</li></ul><ul id="49411eeb-5373-4c69-8d85-2c59db08b28e" class="bulleted-list"><li style="list-style-type:disc">-d: detach</li></ul><ul id="91b3fbc9-a669-4871-bd64-61c691b82254" class="bulleted-list"><li style="list-style-type:disc">-p 5080:80: Mapping port 80 inside the container to port 5080 on the host.</li></ul><ul id="53a91e56-94b6-4c84-9342-20d03dcb6423" class="bulleted-list"><li style="list-style-type:disc">-p 5022:22: Mapping port 22 inside the container to port 5022 on the host.</li></ul><ul id="6adbb9ad-8faa-48e7-92bc-3156e9e9f12c" class="bulleted-list"><li style="list-style-type:disc">—name=”Linux_Ubuntu”: name the container</li></ul><ul id="f6fbf314-10fd-4ab1-a66e-d3a9f04a9345" class="bulleted-list"><li style="list-style-type:disc">—privileged ubuntu: Gives the container extra privileges, and executes Ubuntu</li></ul><ul id="aa96cb07-b6ba-479c-9f5c-18a50d706cd2" class="bulleted-list"><li style="list-style-type:disc">/bin/bash: Specifies the command to run when the container starts. Here, it’s starting the Bash shell, allowing interaction with the container.</li></ul><figure id="b8ae6294-e8fa-4bbd-b2fb-77e5ddaf73a6" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.21.09.png"><img style="width:2488px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.21.09.png"/></a></figure><p id="6840a683-2fcb-4814-a2c9-3a3587607b86" class="">如上圖，表示作業系統已經成功啟動了</p><p id="3d1395f4-17dd-4727-af7a-92aaced78a6f" class="">下圖是 docker 桌面版的顯示畫面，你可以看到有一個被命名為 Linux_Ubuntu 的容器正在執行</p><p id="20658a05-cb97-4491-9977-4e99b2b24c07" class="">如果不是像上圖輸出一串容器的代號，而是有其他報錯資訊，表示你正在使用的埠號(port)已經被佔用，要去 docker 桌面版<mark class="highlight-red">找到剛生成的容器並刪除</mark>重新執行第四個步驟並且更改容器映射到主機端的埠號，如 5080，5022。</p><figure id="45fbf9d2-c00e-4155-ab18-2800b01fb098" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.23.05.png"><img style="width:2764px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.23.05.png"/></a></figure><p id="deae5228-b2a4-46ed-b0c5-5eec53c433cd" class="">
+</p></li></ol><ol type="1" id="d4c8f7e0-d77d-4c2d-bd5f-991820e1e95a" class="numbered-list" start="5"><li>現在我們要從 VScode 打開我們的容器，打開 VScode，在左側工具欄中找到剛下載的插件“Remote Explorer”，找到剛才生成的容器。你可以點選做箭頭在本視窗中開啟，也可以點選於新視窗中開啟。如果是 VScode 詢問要開啟哪個資料夾，在輸入欄輸入“/”然後按 enter，打開最“/”根目錄，這是整個 Ubuntu 的目錄。<figure id="5e87cb33-00cf-4113-86b7-65d37f6a311e" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.29.57.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.29.57.png"/></a></figure><p id="20ac958e-10e1-48a6-9241-f04418f5d43c" class="">下圖是/根目錄文件夾以及容器裡的終端機</p><figure id="50120efb-e604-42a6-a94c-b9f436e9fe18" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.31.13.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.31.13.png"/></a></figure><p id="7c0bd9bc-876b-42c2-bf84-851e64aca860" class="">
+</p></li></ol><ol type="1" id="7a676136-adfa-49e6-8742-e3747808629e" class="numbered-list" start="6"><li>在容器的終端機更新以及升級容器的 apt(advance package tool)<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="781d64c2-2857-4f3a-8b29-b2315953a90e" class="code"><code class="language-Shell">apt update
+apt upgrade</code></pre><p id="a05f8036-7065-4bae-8b44-f02eb483ebdb" class="">
+</p></li></ol><ol type="1" id="d3ee7ef0-adc9-4785-b43d-94fa5e11d226" class="numbered-list" start="7"><li>下載 apache2, php, php-mysql 以及 mariadb-server<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="14b2b30e-f9f5-4442-adce-aa4e46d292dc" class="code"><code class="language-Shell">apt-get install -y apache2 php php-mysql mariadb-server</code></pre><p id="f5a87fa4-467f-42ef-9945-f5b66a3a1b4c" class="">並且完成時區與地點的設定（亞洲：6，台北：73）</p><figure id="4656c04f-659f-475b-9df2-884bd60e0f2f" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.37.31.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.37.31.png"/></a></figure><p id="71f6375d-57ec-480d-8d10-22fc95aace50" class="">如果你看到 Do you want to continue? [y/n] 或是 ………? [yes/no]，永遠都根據中括號的內容按 y 或是 yes 然後按 enter</p><p id="d6a7721d-a116-4f16-b866-a2f7b34d67f9" class="">
+</p></li></ol><ol type="1" id="f2387e86-d657-478b-88c9-0c3dacbace52" class="numbered-list" start="8"><li>啟動 apache2 以及 mariaDB<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fedd1f7a-a4dc-4698-b2bb-88700218b206" class="code"><code class="language-Shell">service apache2 start
+service mariadb start</code></pre><p id="6d80edde-46f5-4730-affe-159e8e930bfe" class="">
+</p></li></ol><ol type="1" id="e0fb88d3-a88a-4909-862a-67f89f800cfa" class="numbered-list" start="9"><li>輸入以下網址檢查網頁伺服器 apache2 是否正常運作<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="90513d76-06b8-445e-a0b3-1cf2cef7012c" class="code"><code class="language-Shell">http://localhost:5080/</code></pre><figure id="461f1c3b-bf2c-4fe3-a433-b2e4b3c19ce0" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.42.31.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.42.31.png"/></a></figure></li></ol><ol type="1" id="d250db85-5d01-4183-addc-142e96126ac0" class="numbered-list" start="10"><li>下載 Phpmyadmin 管理資料庫的程式(pma)<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="162fc465-64ee-419f-a1a0-0614e46d07d5" class="code"><code class="language-Shell">apt install phpmyadmin</code></pre><p id="848e7dd9-17d0-4785-87c4-7a314a224ad2" class="">如果你看到 Do you want to continue? [y/n] 或是Configure database for phpmyadmin with dbconfig-common? [yes/no]，永遠都根據中括號的內容按 y 或是 yes 然後按 enter</p><p id="bcabdc6f-641f-428a-b833-26a9e1b4f011" class="">如果你看到要求你輸入密碼，直接輸入 root 後按 enter，但是你可能沒辦法使用你設定的密碼完成登入，我們將在下一個步驟更改你在 pma 的 root 密碼</p><figure id="dc24df42-a1ed-4796-9ee0-3aa47af5d831" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.47.08.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.47.08.png"/></a></figure></li></ol><ol type="1" id="e88daa3e-c794-4425-b556-26100280d3cb" class="numbered-list" start="11"><li>更改 pma 的 root 密碼，使用 user 為 root 的身分進入 mariadb 的命令列<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3258a6cc-04f8-4047-ae56-57f601dc83e0" class="code"><code class="language-Shell">mysql -u root</code></pre><p id="ea09ccbf-e421-4a5c-8d69-51bce80af996" class="">
+</p><p id="2f1263a8-a365-4f37-af51-daae41ead1f6" class="">並且在 mysql 的命令列中輸入以下指令，將最後面的 password 改成你自己的密碼</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dbd26cf7-221e-4f12-a9df-e8478f22fbf6" class="code"><code class="language-SQL">ALTER USER &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;password&#x27;;</code></pre><p id="7e23956a-bbc9-42cf-a1af-487dfab640e5" class=""><br/><br/></p><p id="18579382-893c-4617-94a4-692ca07f8572" class="">如下圖，你會看到 Query ok，表示完成了密碼的變更</p><figure id="19780146-2080-4f32-8d5e-6285b7614e69" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.50.03.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.50.03.png"/></a></figure><p id="047a941d-cfbc-400d-86c6-2693f9272cf7" class="">輸入exit離開 mariaDB 的命令列</p><p id="d1f33d48-a76d-4473-9076-81d777795301" class="">
+</p></li></ol><ol type="1" id="65f010ba-6450-4baa-863a-ab8e3347d6d8" class="numbered-list" start="12"><li>重新啟動 mariaDB 以及 apache2 (請記得，之後<mark class="highlight-red">每次重新啟動容器之後都要執行</mark>，讓網頁伺服器啟動，否則會看不到網頁)<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f4b1257f-85b2-4efe-b6df-ca2a55a6e0d9" class="code"><code class="language-Shell">service mariadb restart
+service apache2 restart</code></pre><p id="8eaf1581-ce8d-4ec4-bb63-a641569d2e8e" class="">
+</p></li></ol><ol type="1" id="0c5ac145-1cd4-4350-86ff-f1900d662542" class="numbered-list" start="13"><li>輸入網址<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e03170e9-5f1b-4748-88b9-2bee32150807" class="code"><code class="language-Shell">http://localhost:5080/phpmyadmin/</code></pre><ul id="84a4d489-7d6f-45e4-8c5a-461103af38f7" class="bulleted-list"><li style="list-style-type:disc">帳號：root</li></ul><ul id="d8209441-c3ba-4cbc-92f7-17467dccf269" class="bulleted-list"><li style="list-style-type:disc">密碼：password (或是你自己更改的密碼)</li></ul><figure id="ea9893c6-7aa3-415d-bd8d-5363c5edc243" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.57.49.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.57.49.png"/></a></figure><figure id="d7b172aa-886b-411e-8dd1-e9be51dcf26c" class="image"><a href="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.59.48.png"><img style="width:3466px" src="%E4%BD%BF%E7%94%A8Docker%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%AB%AF%E6%9E%B6%E8%A8%AD%E4%BC%BA%E6%9C%8D%E5%99%A8%204b3e3ffb12084693ba0105a5ba965941/Screenshot_2024-01-20_at_00.59.48.png"/></a></figure><p id="f81f64c1-6532-42d3-b604-769ece046652" class="">恭喜，你已經成功進入管理資料庫的頁面了，表示已經成功架設了本機端上的 sever ,可以開始開發你的 php 了</p><p id="14a787e4-f598-4a03-b58b-0811db315a1d" class="">
+</p><p id="a6af2459-4ed2-4fe5-8d1e-3cf62597e004" class="">
+</p><p id="fc8e56ec-e524-4ef7-9838-cbc609debf08" class="">by Dennis Black</p></li></ol><p id="abba3b2f-b6af-4561-a362-474590ecb361" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

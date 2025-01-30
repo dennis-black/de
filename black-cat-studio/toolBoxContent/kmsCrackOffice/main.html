@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        .code-container {
+            width: 100%;
+            overflow-x: auto; /* 啟用水平捲動條 */
+            background-color: rgb(80, 76, 76);
+            color: rgb(255, 255, 255);
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>用指令授權Microsoft Office</h1>
+        <h2>for Windows</h2>
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <h2>複製貼上7行指令就能夠得到授權</h2>
+            <p>
+                Office 全家桶是微軟需要付費的一整套軟體，就像是 adobe 全家桶一樣。通常學校會給學生有包含“@...edu...”
+                的電子郵箱，這通常能夠免費獲得使用 office 全家桶的機會，但是當帳號被回收注銷時，
+                office可能就會變成未授權的狀態。
+                若是之後沒有edu帳號但是又因爲某些因素導致無法得到授權而正常使用office，
+                下面7行指令理論上能夠幫到你。
+                </br></br>
+                參考來源：<a href="https://github.com/21Z/Microsoft-Office-2021" target="_blank">21Z/Microsoft-Office-2021</a>
+            </br></br>
+                操作步驟如下：</br>
+                <ol>
+                    <li>
+                        先前往下載Office Setup：<br>
+                        <a href="/toolBoxContent/kmsCrackOffice/OfficeSetup-zh-tw-32bit.exe" download>Office Setup 中文版-32位元 下載</a>
+                        </br></br>
+                        <a href="/toolBoxContent/kmsCrackOffice/OfficeSetup-en-32bit.exe" download>Office Setup 英文版-32位元 下載</a>
+                        </br></br>
+                        <a href="/toolBoxContent/kmsCrackOffice/OfficeSetup-zh-tw.exe" download>Office Setup 中文版-64位元 下載</a>
+                        </br></br>
+                        <a href="/toolBoxContent/kmsCrackOffice/OfficeSetup-en.exe" download>Office Setup 英文版-64位元 下載</a>
+                        </br></br></br>
+                        下載完就直接執行 Setup 直到安裝完成。
+                        <a href="exeSetUp.png" target="_blank"><img src="exeSetUp.png" width="100%"></a>
+                        </br></br>
+                        <a href="finishSetUp.png" target="_blank"><img src="finishSetUp.png" width="100%"></a>
+                        </br></br>
+                    </li>
+                    <li>
+                        關閉所有與 office 相關的軟體</br></br>
+                    </li>
+                    <li>
+                        在 Windows 的搜尋欄輸入 “cmd”，找到 “命令提示字元” 或是 “終端機”，
+                        比照下圖找到 “以系統管理員身份執行” 並點擊
+                        </br>
+                        <a href="runAsAdmin.png" target="_blank"><img src="runAsAdmin.png"></a>
+                        </br>
+                        確認允許終端機改變電腦設定，點擊 “Yes” ，終端機視窗就會出現
+                        <a href="allowChangeDevice.jpg" target="_blank"><img src="allowChangeDevice.jpg"></a>
+                        </br></br>
+                    </li>
+                    <li>
+                        <div class="code-container">
+<pre><code class="instruction">if exist "C:\Program Files\Microsoft Office\Office16\ospp.vbs" cd /d "C:\Program Files\Microsoft Office\Office16"
+if exist "C:\Program Files (x86)\Microsoft Office\Office16\ospp.vbs" cd /d "C:\Program Files (x86)\Microsoft Office\Office16"
+for /f %x in ('dir /b ..\root\Licenses16\ProPlus2021VL_KMS*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%x"
+cscript ospp.vbs /inpkey:FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH
+cscript ospp.vbs /sethst:kms.msgang.com
+cscript ospp.vbs /act
+pause</code></pre>
+                        </div>
+                        <button onclick="copyInstruction()" style="color: rgb(12, 12, 226); background-color: rgb(200, 198, 211); float: right; margin-top: -140px; position: relative; z-index: 999;">copy</button>
+                        </br></br>
+                        複製上面的指令，貼到終端機上，指令就會開始自己執行了。
+                        <a href="pasteInstruction.png" target="_blank"><img src="pasteInstruction.png"></a></br>
+                        <a href="exeComplete.png" target="_blank"><img src="exeComplete.png"></a></br>
+                    </li>
+                    </br></br>
+                    <li>
+                        最後，我們就能夠能夠從任何一個 office 軟體查看我們的 office 已經是已授權的狀態了
+                        <a href="activated.png" target="_blank"><img src="activated.png"></a></br>
+                    </li>
+                </ol>
+            </p>
+            <h4 style="float: right;">更新時間: Dec. 6 2023</h4>
+        </article>
+        <script>
+            function copyInstruction(){
+                const codeBlock = document.querySelector('.instruction');
+                const codeText = codeBlock.innerText;
+
+                navigator.clipboard.writeText(codeText)
+                    .then(() => {
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+            }
+
+        </script>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>

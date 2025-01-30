@@ -1,0 +1,694 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>水果電腦 GNU Octave 安裝指南</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c9f22385-6be2-489a-b451-593412507565" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/gradients_8.png" style="object-position:center 70%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/octaveLogo.png"/></div><h1 class="page-title">水果電腦 GNU Octave 安裝指南</h1><p class="page-description"></p><table class="properties"><tbody></tbody></table></header><div class="page-body"><h2 id="1747faf8-6f0c-47d0-90d4-cfbde46c2acb" class="">前言</h2><p id="121a27c7-af9f-4a13-bb79-d0848a8d785e" class="">哈囉，各位有安裝 GNU Octave 需求的 Mac 使用者你們好，本篇 GNU Octave 安裝指南計畫先讓使用者根據 Octave 的官方文件 進行安裝，也就是<mark class="highlight-orange">先完成基本的操作</mark>，再根據之後的報錯進行處理。</p><hr id="27dee503-b34a-4f7e-8e01-4cb1f5138f1a"/><h2 id="30eff058-b0b6-414a-ad82-1fe454fd307d" class="">事前準備&注意事項</h2><ol type="1" id="b49cb216-d05f-4bd1-9377-dc3498bf819d" class="numbered-list" start="1"><li>完整閱讀完本指南再進行操作。</li></ol><ol type="1" id="45005334-6041-47e0-9515-c23e0fe6356a" class="numbered-list" start="2"><li>在操作前<mark class="highlight-orange">準備好你的耐心</mark>，準備好之後再一步一步來。</li></ol><ol type="1" id="62710ba8-1e9b-4cc4-b447-ea7786fc182e" class="numbered-list" start="3"><li>準備你的水果系統的電腦以及充電器，坐在有插座且網速快的地方，因為<mark class="highlight-orange">裝這個要花不少時間</mark>。</li></ol><ol type="1" id="62710ba8-1e9b-4cc4-b447-ea7786fc182e" class="numbered-list" start="3"><li>於本說明文件中，你會看到非常多的灰色底的程式碼區塊，那些是需要輸入的指令。有些指令要在終端機裡執行；有些要在終端機進入 octave 的命令介面後執行，請使用者特別注意。 Octave 介面的命令提示字元長得像 “octave:1 >”，你可以在說明文件中“ Octave 四則運算測試”篇第一點的截圖中找到，其他的其他的命令則都是在終端機中完成。</li></ol><hr id="fb6b8af1-3190-49ce-a338-b59abbf3dd60"/><h2 id="89ea22f8-4c0a-4f66-8f48-943e2f6ba16e" class="">基本操作步驟</h2><ol type="1" id="102df50e-2abf-41aa-9598-f2cf2547d51f" class="numbered-list" start="1"><li>我們需要下載 xcode 的一些模組，打開<mark class="highlight-teal">終端機</mark>，輸入以下指令:<br/>p.s. 若先前已經有該模組則跳過該步驟<br/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8e5515fd-5598-4464-8b76-15aa16362205" class="code"><code class="language-Shell">sudo xcode-select --install</code></pre><figure id="a753540e-20d8-4c0a-92d2-9bf8ab21d658" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.09.22_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.09.22_AM.png"/></a></figure><p id="3a2fce42-7731-43cf-8095-39eb7eb003a0" class="">在下列視窗中選擇“安裝”選項，耐心等待直到安裝結束，大約需要<mark class="highlight-orange">25分鐘</mark>的安裝時間</p><figure id="42f83a91-980c-4d08-b3fb-15d9b3cb4d16" class="image" style="text-align:center"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.09.55_AM.png"><img style="width:528px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.09.55_AM.png"/></a></figure><figure id="b1b61db5-55f9-41ed-9c19-ba08ba215a18" class="image" style="text-align:center"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.35.20_AM.png"><img style="width:528px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.35.20_AM.png"/></a></figure></li></ol><ol type="1" id="f28e7299-d94c-49bf-a703-648264b72514" class="numbered-list" start="2"><li>下載 Homebrew，在<mark class="highlight-teal">終端機</mark>輸入以下指令，第一次下載可能會耗費大量時間，請耐心等待<br/>p.s. 若先前已經下載 homebrew 則可跳過該步驟<br/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ad60e99b-5796-4378-a8bf-0463a2683f58" class="code"><code class="language-Shell">/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;</code></pre><figure id="4a3e19ad-6445-4711-bbb1-ba95e63ae87a" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.37.26_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.37.26_AM.png"/></a></figure><p id="4e0679ea-8714-417c-8c27-f09d16c4f9db" class="">在下列視窗中按下enter</p><figure id="ca5195f4-1d75-489c-877e-d3795179168a" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.38.12_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.38.12_AM.png"/></a></figure><p id="61b472f6-4921-4e1a-892c-47fc0faadef3" class="">當安裝的進程跑完之後，有時候需要留意 Homebrew 是否有下一個步驟的提示，如下列視窗： Homebrew 告訴使用者執行那兩行已經被筆者反白的指令，將 Homebrew 加入到使用者的路徑</p><figure id="dc52f5c6-8f20-472f-84ba-a712ed6028d8" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.40.34_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.40.34_AM.png"/></a></figure><p id="8bd8d5ac-4b55-41e2-adcd-136024d3a21f" class="">依據 Homebrew 的提示，將反白的兩行指令複製並貼上到終端機並且按下 enter 執行</p><figure id="8c1259d7-8751-43a2-b89c-cdf0f0f936e2" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.40.58_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.40.58_AM.png"/></a></figure><p id="2893da7d-668b-4836-9752-af78f3b1c33e" class="">此時 Homebrew 已經安裝完畢</p><p id="ddb1f909-0afd-4af1-bd05-fba1f57d60f7" class="">
+</p></li></ol><ol type="1" id="73e1b754-e121-4dab-877b-29c030836a62" class="numbered-list" start="3"><li>更新 Homebrew ，在終端機輸入以下指令<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fbe9f625-ee1e-4278-85fa-1b5310f30b06" class="code"><code class="language-Shell">brew update</code></pre><figure id="f72282f3-817c-418b-97eb-87457f3b9685" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.50.12_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.50.12_AM.png"/></a></figure><p id="be2fc213-7a01-41a1-8b88-3caa92fa35ac" class="">
+</p></li></ol><ol type="1" id="7f0b78bf-33fd-420a-ac1e-bef7a2053fc8" class="numbered-list" start="4"><li>更新 Homebrew 軟體管理器及其所管理的軟體模組，確保所有模組版本是當前最新的，輸入以下指令<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8fa374ab-398f-4a4d-90dd-2ff427b2d8d1" class="code"><code class="language-Shell">brew upgrade</code></pre><figure id="cc4c5dff-6a76-4ad9-9eb0-b81df8a5139a" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.50.35_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.50.35_AM.png"/></a></figure><p id="fecdf106-20a4-40af-9123-30a9949d3821" class="">
+</p></li></ol><ol type="1" id="a94756b9-1b77-4bc4-9f87-7bf2ed373d69" class="numbered-list" start="5"><li>透過 Homebrew 安裝 Octave，輸入以下指令（大約需要<mark class="highlight-orange">28分鐘</mark>的安裝時間）<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="794d4751-cf2e-4306-b7ac-25a6affbd939" class="code"><code class="language-Shell">brew install octave</code></pre><figure id="a5d720d6-dffa-4ad6-81c7-fc30a1f17c97" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.51.42_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_12.51.42_AM.png"/></a></figure><figure id="2cdb02e7-2747-4537-ae03-dca2a1501d89" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.19.59_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.19.59_AM.png"/></a></figure><p id="0670da8f-2583-478e-ae6f-fdaac34b8145" class="">基本上到了這裡就已經安裝完成了，你可以試試看普通四則運算，也就是沒有任何未知數的，因為要用未知數的模組還沒有裝上去。</p><p id="d2d43e49-9351-474f-b8a6-65c93741537b" class="">
+</p></li></ol><p id="5a7688eb-e3d5-4f80-9602-856d2e5ac27b" class="">
+</p><hr id="1b883d2e-1fa8-4bbb-9fab-e8f7d722a530"/><h2 id="d85aa5d3-06df-4661-b06a-66a9638701e7" class="">Octave 四則運算測試</h2><p id="0266baa0-d513-4971-b0b2-226a0c9b1a22" class=""><div class="indented"><ol type="1" id="fbd49b89-70d3-4439-9b00-5cd0fee8491f" class="numbered-list" start="1"><li>打開<mark class="highlight-teal">終端機</mark>，輸入octave<br/>p.s. 第一次打開大概需要花費30秒<br/><br/>現在下列視窗是 GNU Octave 的命令列介面，也就是在 Windows 系統上下載後在桌面上的 “Octave (CLI)”。<br/><figure id="6efd38ee-64ae-4d8a-9fed-299a1843f04b" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.26.17_AM.png"><img style="width:656px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.26.17_AM.png"/></a></figure><p id="baccfadc-392a-4d09-9921-5dde8496416a" class="">
+</p></li></ol><ol type="1" id="d79777ae-507e-4bce-b704-fb402b286d02" class="numbered-list" start="2"><li>接著你就可以試試看 3+3+3+3+3+6+6+6+6 … 任何你想得到的四則運算算式（3+3+3+3+3+6+6+6+6 答案應該是39）<br/><br/>這證明了 Octave 其實已經裝好了，但是我們需要更進階功能的模組還沒有裝上去<br/><figure id="9db77bed-7eda-462d-a7ac-761182dc01fb" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.31.15_AM.png"><img style="width:656px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.31.15_AM.png"/></a></figure><p id="b9f28472-9181-4923-b309-8287d76ea529" class="">
+</p><p id="26f3670a-4d1d-4ba0-a4d7-c9b36709bb3b" class="">
+</p></li></ol></div></p><hr id="72854010-6d78-481f-985a-fbc2f111a0ba"/><h2 id="5c04d5e1-ad4b-486e-b225-1d0b683832ed" class="">安裝未知數計算以及數學工具模組-symbolic &amp; SymPy</h2><p id="b07b4669-832d-4acf-bb7e-22db7c13dfe9" class="">
+</p><ol type="1" id="422223fa-9160-4293-b704-05d2914dcf42" class="numbered-list" start="1"><li>既然四則運算是可以用的，我們不妨測試一下在沒有安裝我們需要的模組的狀況下直接下需要這個模組才能用的指令會有什麼樣子的報錯，在 <mark class="highlight-purple">Octave 命令介面</mark>輸入以下指令<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="05f01799-5e6a-469f-9416-d5ac44bbc7b2" class="code"><code class="language-JavaScript">pkg load symbolic</code></pre><p id="05ad747b-2367-4d4a-b134-692e4117d90c" class="">
+</p><p id="00185599-0938-4535-8005-abab0ba1f0b1" class="">在下列視窗根據筆者反白的部分，你會發現他說沒有裝這個模組</p><figure id="ec54e455-601a-4b7a-878b-c5cb90134f98" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.39.52_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.39.52_AM.png"/></a></figure></li></ol><ol type="1" id="033ed22c-e35f-4675-88a2-979648a8804c" class="numbered-list" start="2"><li>現在我們要安裝這個 symbolic 模組<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d0d0556f-fb1c-4b7a-8cb5-f1d36bdc449e" class="code"><code class="language-JavaScript">pkg install -forge symbolic</code></pre><p id="ee867f16-f82b-47f6-8efc-7e0efc2f8ec4" class="">
+</p><p id="ff29bc3e-b6e2-4f56-bd48-73dd3b8a063d" class="">下面的視窗已經顯示成功安裝 Octave Forge 平台上的 symbolic 模組</p><figure id="d5d64b10-fea6-490e-96b4-8a180307f694" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.42.39_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_1.42.39_AM.png"/></a></figure><p id="39d2f519-f4cd-48a1-9acb-9af8ac977fbb" class="">其實我們還缺少一個叫做 SymPy 的模組，但是我們先看看缺少這個模組會出現的報錯</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8e3e403a-1923-427e-97ef-6781bfd5db4f" class="code"><code class="language-JavaScript">pkg load symbolic
+syms x</code></pre><figure id="c9bd15b4-5eb7-459e-9a77-2c5dd661fe57" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.07.36_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.07.36_AM.png"/></a></figure><p id="e73e2547-94b8-425a-979e-c36b3a036e8b" class="">根據筆者反白的地方可以明顯看到還缺少 SymPy 這個模組。 </p><p id="fd1c45a3-6989-4c9b-8d81-eea56ae3c9dd" class="">
+</p></li></ol><ol type="1" id="22e3684b-339e-4acf-9301-4a489b8533fb" class="numbered-list" start="3"><li>接著我們要去 Anaconda 下載 SymPy ，這是 python 的模組<br/>p.s. 當然你也可以用其他的方式去載 SymPy，但是筆者選擇 Anaconda 的原因是因為其他的方法要打很多指令修改系統路徑，打錯的話<mark class="highlight-red">可能會出大事</mark>，因此建議使用 Anaconda 。<p id="70695fe6-d5cd-42cd-9e77-f81a60a649e6" class="">
+</p><p id="bcd07f14-77ee-4787-b53d-aede75eab240" class="">我們先去 <a href="https://www.anaconda.com/download/success">Anaconda 的官網</a>上下載 Anaconda Navigator，根據自己的電腦處理器，若你是 intel 的處理器就下載 intel 版本的；若是M系列的處理器請選擇 Apple Silicon 的版本下載</p><figure id="11782862-d7de-4a06-a0d8-47107bd1884f" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.11.08_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.11.08_AM.png"/></a></figure><p id="4eef1610-fcc7-440e-9dc8-8309285b76fd" class="">當下載完成之後我們就進行安裝，看到 Allow 按 Allow；看到同意按同意；看到繼續按繼續；看到安裝按安裝，直到 Anaconda 成功安裝</p><figure id="8dc1faae-098d-4d23-8401-8f0c7ea88e49" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.18.07_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.18.07_AM.png"/></a></figure><figure id="d0ea850e-438a-450d-aa75-ccceb1076aea" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.18.45_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.18.45_AM.png"/></a></figure><figure id="9036463e-baea-4f88-bac7-06172d82d0a1" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.19.23_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.19.23_AM.png"/></a></figure></li></ol><ol type="1" id="6b721d2e-180c-405f-b3f8-fe5d27560c97" class="numbered-list" start="4"><li>Anaconda 下載完成之後，打開<mark class="highlight-teal">終端機</mark>，輸入以下指令進行 SymPy 的安裝<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e63e2ad4-3305-4fd1-89f2-680e37c0d9e7" class="code"><code class="language-JavaScript">conda install sympy</code></pre><figure id="0ef1303b-fcbd-40cf-bfa2-7e31dc8d3f31" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.38.43_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.38.43_AM.png"/></a></figure><p id="c7c26dac-1da3-4a19-8f6c-f8189ec5543d" class="">輸入“y” 繼續安裝 SymPy 模組</p><figure id="5c0c29cf-520d-4974-a3f5-8feaa2381b4d" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.39.16_AM.png"><img style="width:680px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.39.16_AM.png"/></a></figure><p id="1c0759b7-01d0-4e18-a96a-f65a9bfaffb6" class="">到這裡，我們的數學工具以及未知數模組已經完成下載了，接下來請進到下一個區段，我們要來測試 Octave 是否能夠解決一些棘手的數學表達式了</p></li></ol><hr id="d6a666b6-d46a-4bf2-9816-949686cc03d8"/><h2 id="927fcf76-175f-4011-84d7-fae5dc4d492c" class="">Octave 與數學表達式</h2><p id="36f5c7c2-978e-4b92-8a3c-fd2992b7da5b" class="">接下來我們要用一些表達式來測試剛下載好的 Symbolic 模組是否能夠正常使用，下面有一個積分式，再下面的灰色程式碼區塊則是對應的 octave 指令，請將 octave 指令於 octave 命令介面中輸入</p><figure id="58be3d40-f711-4e54-b246-e400747eaa45" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mn>1</mn><mrow><mn>200</mn><mi>m</mi></mrow></mfrac><msubsup><mo>∫</mo><mn>0</mn><mi>t</mi></msubsup><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>3</mn><mi>x</mi><mo stretchy="false">)</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>3</mn><mi>x</mi></mrow></msup><mtext> </mtext><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\frac{1}{200m} \int_{0}^{t} (1-3x)e^{-3x} \, dx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.4554em;vertical-align:-0.9119em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">200</span><span class="mord mathnormal">m</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5435em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord">3</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span></span></span></span></span></div></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="09c2fb89-07c5-4783-9419-8d397b07a717" class="code"><code class="language-JavaScript">pkg load symbolic
+syms x t
+1/200e-3*int((1-3*x)*e^(-3*t),0,t)</code></pre><p id="ea4164bd-c427-4768-a582-35356b12404a" class="">你的電腦應該要顯示的畫面如下</p><figure id="f6d355ec-0921-4011-86ad-3ff179340d31" class="image"><a href="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.51.11_AM.png"><img style="width:708px" src="%E6%B0%B4%E6%9E%9C%E9%9B%BB%E8%85%A6%20GNU%20Octave%20%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%20c9f223856be2489ab451593412507565/Screen_Shot_2024-06-06_at_2.51.11_AM.png"/></a></figure><p id="2acaef31-2a81-4fdb-92be-2d99ed24795e" class="">okay，理論上你的電腦能夠解出上面的積分式基本上已經成功安裝大部分的數學工具了</p><p id="4fff63d1-92f6-43d7-a597-4cc60270d012" class="">筆者都只有拿 Octave 的命令列介面作為示範，其實 Octave 在 Mac 上面也是有 GUI 介面的，下次打開 Octave 的時候在<mark class="highlight-teal">終端機</mark>用以下指令就會有 GUI介面了</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8a2ba90a-6757-4dc8-ac9f-a672a9cd9a85" class="code"><code class="language-JavaScript"> octave --gui</code></pre><p id="b051d93d-ceff-4b1b-ae8f-666457a1acdc" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

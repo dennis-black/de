@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis-Black 工具箱</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* 淺藍色背景 */
+        }
+
+        header {
+            background-color: #333; /* 主標題背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+        }
+
+        .backTo{
+            background-color: rgb(223, 234, 240);
+            border-radius: 5px;
+        }
+
+        .backTo:hover{
+            background-color: rgb(228, 243, 255);
+            
+        }
+
+        img{
+            max-width: 100%;
+            display: block;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* 白色內容背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        article {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd; /* 文章邊框 */
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        footer {
+            background-color: #333; /* 頁腳背景色 */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>神奇的Hitomi下載器</h1>
+        <h2>for Windows</h2>
+    </header>
+    <main>
+        <button class="backTo" onclick="history.back()">返回到上一頁</button>
+        <button class="backTo" onclick="location.href='../../index.html'">回到首頁</button></br></br>        
+        <article>
+            <h2>下載mp3&mp4的黑魔法</h2>
+            <p>
+                hitomi下載器是一個神奇的開源軟體，
+                他可以透過超連結下載大部分的影片或是音檔並且存到本機。
+                最棒的事是這個軟體是一個開源軟體，在GitHub能夠找到開源碼，
+                最重要的事他不會像網頁版的“youtube to mp3”有一堆彈出式的色情廣告，
+                或者是讓你的電腦顯示一些中毒的畫面，這對於我來說已經是極大的福音了，
+                於是我想要向大家介紹這款開源軟體 “Hitomi Downloader”!
+                </br></br>
+                可惜的是目前只有windows的使用者能夠正常使用，
+                mac版本的現在是beta版本，但是我試過了目前(Sept.15 2023)無法使用。
+                </br></br>
+                操作步驟如下：
+                <ol>
+                    <li>
+                        <a href="https://github.com/KurtBestor/Hitomi-Downloader/releases" target="_blank">這是 Hitomi Downloader GitHub 的倉庫</a>，
+                        今天要教會大家使用這個開源軟體，您可以在GitHub倉庫裡面找到“hitomi_downloader_GUI.zip”
+                        這個壓縮檔並且在點擊後執行下載。
+                        <a href="downloadZip.png" target="_blank"><img src="downloadZip.png"></a>
+                        </br></br>
+                    </li>
+                    <li>
+                        右鍵解壓縮檔案
+                        <a href="unzip.png" target="_blank"><img src="unzip.png"></a></br>
+                        </br></br>
+                    </li>
+                    <li>
+                        點擊並執行程式
+                        <a href="exeProgram.png" target="_blank"><img src="exeProgram.png"></a></br>
+                        </br></br>
+                    </li>
+                    <li>
+                        輸入一個影片的網址後將游標移動到下載按鈕上，此時會有一個顯示下拉式選單的按鈕出現，點擊顯示下拉式選單
+                        <a href="isrtURLDownload.png" target="_blank"><img src="isrtURLDownload.png"></a></br>
+                        </br></br>
+                    </li>
+                    <li>
+                        接著就可以選擇要下載mp3或是mp4了
+                        <a href="chooseMp3Or4.png" target="_blank"><img src="chooseMp3Or4.png"></a></br>
+                        </br></br>
+                    </li>
+
+                    <li>
+                        最後我們能夠開啟資料夾取得已經下載的mp3或是mp4
+                        <a href="openFolder.png" target="_blank"><img src="openFolder.png"></a></br>
+                        </br></br>
+                    </li>
+                </ol>
+                </br></br>
+                若您提供的影片連結沒辦法下載，您可以從
+                <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md" target="_blank">
+                    Hitomi downloader支援的平台列表</a>
+                進行確認，如果列表上面沒有的話那Hitomi downloader可能不支援
+                ，應該要試試看其他的方法了。
+            </p>
+            <h4 style="float: right;">更新時間: Sept. 30 2023</h4>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2023 黑貓工作室</p>
+    </footer>
+</body>
+</html>
