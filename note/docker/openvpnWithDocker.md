@@ -50,7 +50,9 @@ title: 利用 Google GCP 架設 VPN 伺服器（未完成）
     ```shell
     sudo docker run hello-world
     ```
+
 參考 [docker 官方網站](https://docs.docker.com/engine/install/ubuntu/)
+
 ### 建立 openvpn 容器
 1. 運行容器
     ```shell
