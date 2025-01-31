@@ -443,214 +443,214 @@ void low_74138pin(int num){
 ---
 ## 以4位按紐分別做為LED四位的加1減1按紐，利用4位指撥開關向上為加、向下為減。其中若0009，個位數再加1會進位變0010
 - 有接脚位衝突的問題
-```c
-int num = 4;
-int DIPSWbase1 = 37, BTNbase1 = 33; // 第一個按鈕以及指撥開關的 I/O 脚位
-int DIPSW1state, DIPSW2state, DIPSW3state, DIPSW4state; //儲存指撥開關的狀態
-int BTN1state, BTN2state, BTN3state, BTN4state; //儲存按鈕的狀態
-int displayVal = 0; //記錄七段顯示器要顯示的值
-int adjustVal = 0;//要調整的值
-#define CA1 30
-#define CA2 31
-#define CA3 32
-int delayTime = 1; //延遲4毫秒
-byte segs[7] = {2,3,4,5,6,7,8};
-// byte segs[7] = {11,12,13,14,15,16,17};
-byte sSD[10][7] = { //七段顯示器數據
-  {0,0,0,0,0,0,1}, //0
-  {1,0,0,1,1,1,1}, //1
-  {0,0,1,0,0,1,0}, //2
-  {0,0,0,0,1,1,0}, //3
-  {1,0,0,1,1,0,0}, //4
-  {0,1,0,0,1,0,0}, //5
-  {0,1,0,0,0,0,0}, //6
-  {0,0,0,1,1,1,1}, //7
-  {0,0,0,0,0,0,0}, //8
-  {0,0,0,0,1,0,0}, //9
-};
+  ```c
+  int num = 4;
+  int DIPSWbase1 = 37, BTNbase1 = 33; // 第一個按鈕以及指撥開關的 I/O 脚位
+  int DIPSW1state, DIPSW2state, DIPSW3state, DIPSW4state; //儲存指撥開關的狀態
+  int BTN1state, BTN2state, BTN3state, BTN4state; //儲存按鈕的狀態
+  int displayVal = 0; //記錄七段顯示器要顯示的值
+  int adjustVal = 0;//要調整的值
+  #define CA1 30
+  #define CA2 31
+  #define CA3 32
+  int delayTime = 1; //延遲4毫秒
+  byte segs[7] = {2,3,4,5,6,7,8};
+  // byte segs[7] = {11,12,13,14,15,16,17};
+  byte sSD[10][7] = { //七段顯示器數據
+    {0,0,0,0,0,0,1}, //0
+    {1,0,0,1,1,1,1}, //1
+    {0,0,1,0,0,1,0}, //2
+    {0,0,0,0,1,1,0}, //3
+    {1,0,0,1,1,0,0}, //4
+    {0,1,0,0,1,0,0}, //5
+    {0,1,0,0,0,0,0}, //6
+    {0,0,0,1,1,1,1}, //7
+    {0,0,0,0,0,0,0}, //8
+    {0,0,0,0,1,0,0}, //9
+  };
 
-void setup() {
-  Serial.begin(9600);
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  digitalWrite(9, HIGH); //不顯示小數點
+  void setup() {
+    Serial.begin(9600);
+    pinMode(2, OUTPUT);
+    pinMode(3, OUTPUT);
+    pinMode(4, OUTPUT);
+    pinMode(5, OUTPUT);
+    pinMode(6, OUTPUT);
+    pinMode(7, OUTPUT);
+    pinMode(8, OUTPUT);
+    pinMode(9, OUTPUT);
+    digitalWrite(9, HIGH); //不顯示小數點
 
-  pinMode(CA1, OUTPUT);
-  pinMode(CA2, OUTPUT);
-  pinMode(CA3, OUTPUT);
-  pinMode(A13, OUTPUT);
-  digitalWrite(A13, LOW);
+    pinMode(CA1, OUTPUT);
+    pinMode(CA2, OUTPUT);
+    pinMode(CA3, OUTPUT);
+    pinMode(A13, OUTPUT);
+    digitalWrite(A13, LOW);
 
-  for(int i = BTNbase1; i < BTNbase1 + num; i++){
-    pinMode(i, INPUT_PULLUP);
-  }
-  
-  for(int i = DIPSWbase1; i < DIPSWbase1 + num; i++){
-    pinMode(i, INPUT_PULLUP);
-  }
-  display7Seg(displayVal);
-}
-
-void loop() {
-
-  //--------------------------------處理指撥開關
-  DIPSW1state = digitalRead(37);
-  digitalWrite(2, DIPSW1state);
-  Serial.print("DIPSW1state: ");
-  Serial.println(DIPSW1state);  // 在serial monitor 查看輸出 on = 0; off = 1;
-
-  DIPSW2state = digitalRead(38);
-  digitalWrite(3, DIPSW2state);
-
-  DIPSW3state = digitalRead(39);
-  digitalWrite(4, DIPSW3state);
-
-  DIPSW4state = digitalRead(40);
-  digitalWrite(5, DIPSW4state);
-
-  //--------------------------------處理按鈕
-  BTN1state =  digitalRead(33);
-  digitalWrite(9, BTN1state);
-  // Serial.print("BTN1state: ");
-  // Serial.println(BTN1state); // 在serial monitor 查看輸出 on = 0; off = 1;
-
-  BTN2state =  digitalRead(34);
-  digitalWrite(8, BTN2state);
-
-  BTN3state =  digitalRead(35);
-  digitalWrite(7, BTN3state);
-
-  BTN4state =  digitalRead(36);
-  digitalWrite(6, BTN4state);
-
-
-  //--------------------------------處理個別位數加減問題
-   if (BTN4state == 0) { // 當按鈕4被按下 (個位數)
-    adjustVal = (DIPSW1state == 0) ? 1 : -1; // 根據DIPSW4判斷加減
-    displayVal += adjustVal;
-    if (displayVal < 0) {
-      displayVal += 10000; // 如果小於0，環繞到9999
-    } else if (displayVal > 9999) {
-      displayVal %= 10000; // 如果超過9999，環繞到0
+    for(int i = BTNbase1; i < BTNbase1 + num; i++){
+      pinMode(i, INPUT_PULLUP);
     }
-  }
-
-  if (BTN3state == 0) { // 當按鈕3被按下 (十位數)
-    adjustVal = (DIPSW2state == 0) ? 10 : -10; // 根據DIPSW3判斷加減
-    displayVal += adjustVal;
-    if (displayVal < 0) {
-      displayVal += 10000; // 如果小於0，環繞到9999
-    } else if (displayVal > 9999) {
-      displayVal %= 10000; // 如果超過9999，環繞到0
+    
+    for(int i = DIPSWbase1; i < DIPSWbase1 + num; i++){
+      pinMode(i, INPUT_PULLUP);
     }
+    display7Seg(displayVal);
   }
 
-  if (BTN2state == 0) { // 當按鈕2被按下 (百位數)
-    adjustVal = (DIPSW3state == 0) ? 100 : -100; // 根據DIPSW2判斷加減
-    displayVal += adjustVal;
-    if (displayVal < 0) {
-      displayVal += 10000; // 如果小於0，環繞到9999
-    } else if (displayVal > 9999) {
-      displayVal %= 10000; // 如果超過9999，環繞到0
+  void loop() {
+
+    //--------------------------------處理指撥開關
+    DIPSW1state = digitalRead(37);
+    digitalWrite(2, DIPSW1state);
+    Serial.print("DIPSW1state: ");
+    Serial.println(DIPSW1state);  // 在serial monitor 查看輸出 on = 0; off = 1;
+
+    DIPSW2state = digitalRead(38);
+    digitalWrite(3, DIPSW2state);
+
+    DIPSW3state = digitalRead(39);
+    digitalWrite(4, DIPSW3state);
+
+    DIPSW4state = digitalRead(40);
+    digitalWrite(5, DIPSW4state);
+
+    //--------------------------------處理按鈕
+    BTN1state =  digitalRead(33);
+    digitalWrite(9, BTN1state);
+    // Serial.print("BTN1state: ");
+    // Serial.println(BTN1state); // 在serial monitor 查看輸出 on = 0; off = 1;
+
+    BTN2state =  digitalRead(34);
+    digitalWrite(8, BTN2state);
+
+    BTN3state =  digitalRead(35);
+    digitalWrite(7, BTN3state);
+
+    BTN4state =  digitalRead(36);
+    digitalWrite(6, BTN4state);
+
+
+    //--------------------------------處理個別位數加減問題
+    if (BTN4state == 0) { // 當按鈕4被按下 (個位數)
+      adjustVal = (DIPSW1state == 0) ? 1 : -1; // 根據DIPSW4判斷加減
+      displayVal += adjustVal;
+      if (displayVal < 0) {
+        displayVal += 10000; // 如果小於0，環繞到9999
+      } else if (displayVal > 9999) {
+        displayVal %= 10000; // 如果超過9999，環繞到0
+      }
     }
-  }
 
-  if (BTN1state == 0) { // 當按鈕1被按下 (千位數)
-    adjustVal = (DIPSW4state == 0) ? 1000 : -1000; // 根據DIPSW1判斷加減
-    displayVal += adjustVal;
-    if (displayVal < 0) {
-      displayVal += 10000; // 如果小於0，環繞到9999
-    } else if (displayVal > 9999) {
-      displayVal %= 10000; // 如果超過9999，環繞到0
+    if (BTN3state == 0) { // 當按鈕3被按下 (十位數)
+      adjustVal = (DIPSW2state == 0) ? 10 : -10; // 根據DIPSW3判斷加減
+      displayVal += adjustVal;
+      if (displayVal < 0) {
+        displayVal += 10000; // 如果小於0，環繞到9999
+      } else if (displayVal > 9999) {
+        displayVal %= 10000; // 如果超過9999，環繞到0
+      }
     }
-  }
 
-  Serial.print("4-digit val: ");
-  Serial.println(displayVal);
-
-  //--------------------------------處理將displayVal在4位7段顯示器上輸出
-  display7Seg(displayVal);
-  delay(200);
-}
-
-void display7Seg(int number) {
-    unsigned long startTime = millis();
-    for(unsigned long elapsed = 0; elapsed < 300; elapsed = millis()-startTime){
-      lightDigit1(number%10);
-      delay(delayTime);
-      lightDigit2((number/10)%10);
-      delay(delayTime);
-      lightDigit3((number/100)%10);
-      delay(delayTime);
-      lightDigit4((number/1000)%10);
-      delay(delayTime);
+    if (BTN2state == 0) { // 當按鈕2被按下 (百位數)
+      adjustVal = (DIPSW3state == 0) ? 100 : -100; // 根據DIPSW2判斷加減
+      displayVal += adjustVal;
+      if (displayVal < 0) {
+        displayVal += 10000; // 如果小於0，環繞到9999
+      } else if (displayVal > 9999) {
+        displayVal %= 10000; // 如果超過9999，環繞到0
+      }
     }
-}
 
-void pickDigit(int x){ //用來選定某個位數的顯示器
-  digitalWrite(CA1, HIGH);
-  digitalWrite(CA2, HIGH);
-  digitalWrite(CA3, HIGH);
+    if (BTN1state == 0) { // 當按鈕1被按下 (千位數)
+      adjustVal = (DIPSW4state == 0) ? 1000 : -1000; // 根據DIPSW1判斷加減
+      displayVal += adjustVal;
+      if (displayVal < 0) {
+        displayVal += 10000; // 如果小於0，環繞到9999
+      } else if (displayVal > 9999) {
+        displayVal %= 10000; // 如果超過9999，環繞到0
+      }
+    }
 
-  switch(x){
-    case 1:
-      digitalWrite(CA1, LOW);
-      digitalWrite(CA2, LOW);
-      digitalWrite(CA3, LOW);
-      break;
-    case 2:
-      digitalWrite(CA1, HIGH);
-      digitalWrite(CA2, LOW);
-      digitalWrite(CA3, LOW);
-      break;
-    case 3:
-      digitalWrite(CA1, LOW);
-      digitalWrite(CA2, HIGH);
-      digitalWrite(CA3, LOW);
-      break;
-    case 4:
-      digitalWrite(CA1, HIGH);
-      digitalWrite(CA2, HIGH);
-      digitalWrite(CA3, LOW);
-      break;
-  }  
-}
+    Serial.print("4-digit val: ");
+    Serial.println(displayVal);
 
-void lightDigit1(byte number){
-  pickDigit(1);
-  lightSegments(number);
-}
-
-void lightDigit2(byte number){
-  pickDigit(2);
-  lightSegments(number);
-}
-
-void lightDigit3(byte number){
-  pickDigit(3);
-  lightSegments(number);
-}
-
-void lightDigit4(byte number){
-  pickDigit(4);
-  lightSegments(number);
-}
-
-void lightSegments(byte number){
-  for(int i = 0; i < 7; i++){
-    digitalWrite(segs[i], sSD[number][i]);
+    //--------------------------------處理將displayVal在4位7段顯示器上輸出
+    display7Seg(displayVal);
+    delay(200);
   }
-  delay(1);
-}
+
+  void display7Seg(int number) {
+      unsigned long startTime = millis();
+      for(unsigned long elapsed = 0; elapsed < 300; elapsed = millis()-startTime){
+        lightDigit1(number%10);
+        delay(delayTime);
+        lightDigit2((number/10)%10);
+        delay(delayTime);
+        lightDigit3((number/100)%10);
+        delay(delayTime);
+        lightDigit4((number/1000)%10);
+        delay(delayTime);
+      }
+  }
+
+  void pickDigit(int x){ //用來選定某個位數的顯示器
+    digitalWrite(CA1, HIGH);
+    digitalWrite(CA2, HIGH);
+    digitalWrite(CA3, HIGH);
+
+    switch(x){
+      case 1:
+        digitalWrite(CA1, LOW);
+        digitalWrite(CA2, LOW);
+        digitalWrite(CA3, LOW);
+        break;
+      case 2:
+        digitalWrite(CA1, HIGH);
+        digitalWrite(CA2, LOW);
+        digitalWrite(CA3, LOW);
+        break;
+      case 3:
+        digitalWrite(CA1, LOW);
+        digitalWrite(CA2, HIGH);
+        digitalWrite(CA3, LOW);
+        break;
+      case 4:
+        digitalWrite(CA1, HIGH);
+        digitalWrite(CA2, HIGH);
+        digitalWrite(CA3, LOW);
+        break;
+    }  
+  }
+
+  void lightDigit1(byte number){
+    pickDigit(1);
+    lightSegments(number);
+  }
+
+  void lightDigit2(byte number){
+    pickDigit(2);
+    lightSegments(number);
+  }
+
+  void lightDigit3(byte number){
+    pickDigit(3);
+    lightSegments(number);
+  }
+
+  void lightDigit4(byte number){
+    pickDigit(4);
+    lightSegments(number);
+  }
+
+  void lightSegments(byte number){
+    for(int i = 0; i < 7; i++){
+      digitalWrite(segs[i], sSD[number][i]);
+    }
+    delay(1);
+  }
 
 
-```
+  ```
 
 ## 實作紅綠燈小綠人，使用按鈕開關，從右到左依序為紅黃綠，按下按鈕後，給出特定動作
 ```c
@@ -1201,201 +1201,201 @@ void calculateResult() {
 
 ## 按鍵對應到七段顯示器，並輸入密碼1450，若輸入正確RGB LED亮綠燈，反之亮紅燈。按下C清除(七段顯示不亮)
 - 7段顯示器在輸入之後會顯示跑到最左邊，也就是不管輸入幾位數雖然看得到數字的殘影，但是到最後都會只顯示千位數
-```c
-#include <Keypad.h>
+  ```c
+  #include <Keypad.h>
 
-const byte rows = 4;
-const byte cols = 4;
-char kb[rows][cols] = {
-                        {'F','E','D','C'},
-                        {'B','3','6','9'},
-                        {'A','2','5','8'},
-                        {'0','1','4','7'}
-                      };
-byte rowPins[rows] = {25, 24, 23, 22};
-byte colPins[cols] = {29, 28, 27, 26};
-Keypad customKeypad = Keypad(makeKeymap(kb), rowPins, colPins, rows, cols);
+  const byte rows = 4;
+  const byte cols = 4;
+  char kb[rows][cols] = {
+                          {'F','E','D','C'},
+                          {'B','3','6','9'},
+                          {'A','2','5','8'},
+                          {'0','1','4','7'}
+                        };
+  byte rowPins[rows] = {25, 24, 23, 22};
+  byte colPins[cols] = {29, 28, 27, 26};
+  Keypad customKeypad = Keypad(makeKeymap(kb), rowPins, colPins, rows, cols);
 
-#define CA1 30
-#define CA2 31
-#define CA3 32
-#define RED_PIN 44
-#define GREEN_PIN 45
-#define BLUE_PIN 46
+  #define CA1 30
+  #define CA2 31
+  #define CA3 32
+  #define RED_PIN 44
+  #define GREEN_PIN 45
+  #define BLUE_PIN 46
 
-int delayTime = 10; // Set to a more visible delay
-byte segs[7] = {2, 3, 4, 5, 6, 7, 8};
-byte sSD[10][7] = {
-  {0, 0, 0, 0, 0, 0, 1}, //0 
-  {1, 0, 0, 1, 1, 1, 1}, //1
-  {0, 0, 1, 0, 0, 1, 0}, //2
-  {0, 0, 0, 0, 1, 1, 0}, //3
-  {1, 0, 0, 1, 1, 0, 0}, //4
-  {0, 1, 0, 0, 1, 0, 0}, //5
-  {0, 1, 0, 0, 0, 0, 0}, //6
-  {0, 0, 0, 1, 1, 1, 1}, //7
-  {0, 0, 0, 0, 0, 0, 0}, //8
-  {0, 0, 0, 0, 1, 0, 0}, //9
-};
+  int delayTime = 10; // Set to a more visible delay
+  byte segs[7] = {2, 3, 4, 5, 6, 7, 8};
+  byte sSD[10][7] = {
+    {0, 0, 0, 0, 0, 0, 1}, //0 
+    {1, 0, 0, 1, 1, 1, 1}, //1
+    {0, 0, 1, 0, 0, 1, 0}, //2
+    {0, 0, 0, 0, 1, 1, 0}, //3
+    {1, 0, 0, 1, 1, 0, 0}, //4
+    {0, 1, 0, 0, 1, 0, 0}, //5
+    {0, 1, 0, 0, 0, 0, 0}, //6
+    {0, 0, 0, 1, 1, 1, 1}, //7
+    {0, 0, 0, 0, 0, 0, 0}, //8
+    {0, 0, 0, 0, 1, 0, 0}, //9
+  };
 
-String enteredCode = "";  // Store entered password
-String correctCode = "1450";  // Correct password
+  String enteredCode = "";  // Store entered password
+  String correctCode = "1450";  // Correct password
 
-void setup() {
-  Serial.begin(9600);
+  void setup() {
+    Serial.begin(9600);
 
-  // Set segment pins as output
-  for (int i = 2; i <= 8; i++) {
-    pinMode(i, OUTPUT);
+    // Set segment pins as output
+    for (int i = 2; i <= 8; i++) {
+      pinMode(i, OUTPUT);
+    }
+    pinMode(9, OUTPUT);
+    digitalWrite(9, HIGH); // Turn off decimal point
+
+    // Set common anode pins as output
+    pinMode(CA1, OUTPUT);
+    pinMode(CA2, OUTPUT);
+    pinMode(CA3, OUTPUT);
+
+    pinMode(A13, OUTPUT);
+    digitalWrite(A13, LOW);
+
+    // Set RGB pins as output
+    pinMode(RED_PIN, OUTPUT);
+    pinMode(GREEN_PIN, OUTPUT);
+    pinMode(BLUE_PIN, OUTPUT);
+
+    resetDisplay();
+    turnOffRGB();
   }
-  pinMode(9, OUTPUT);
-  digitalWrite(9, HIGH); // Turn off decimal point
 
-  // Set common anode pins as output
-  pinMode(CA1, OUTPUT);
-  pinMode(CA2, OUTPUT);
-  pinMode(CA3, OUTPUT);
+  void loop() {
+    showNumber(enteredCode.toInt());
+    char customKey = customKeypad.getKey();
+    if (customKey) {
+      if (customKey == 'C') {
+        // Clear display
+        enteredCode = "";
+        resetDisplay();
+        turnOffRGB();
+      } else if (isdigit(customKey)) {
+        // Handle digit input
+        enteredCode += customKey;
+        int currentLength = enteredCode.length();
+        if (currentLength <= 4) {
+          showNumber(enteredCode.toInt());
+        }
 
-  pinMode(A13, OUTPUT);
-  digitalWrite(A13, LOW);
-
-  // Set RGB pins as output
-  pinMode(RED_PIN, OUTPUT);
-  pinMode(GREEN_PIN, OUTPUT);
-  pinMode(BLUE_PIN, OUTPUT);
-
-  resetDisplay();
-  turnOffRGB();
-}
-
-void loop() {
-  showNumber(enteredCode.toInt());
-  char customKey = customKeypad.getKey();
-  if (customKey) {
-    if (customKey == 'C') {
-      // Clear display
-      enteredCode = "";
-      resetDisplay();
-      turnOffRGB();
-    } else if (isdigit(customKey)) {
-      // Handle digit input
-      enteredCode += customKey;
-      int currentLength = enteredCode.length();
-      if (currentLength <= 4) {
-        showNumber(enteredCode.toInt());
-      }
-
-      if (enteredCode.length() == 4) {
-        checkCode();  // Check the entered password
+        if (enteredCode.length() == 4) {
+          checkCode();  // Check the entered password
+        }
       }
     }
   }
-}
 
-void checkCode() {
-  if (enteredCode == correctCode) {
-    turnGreen(); // Correct password
-  } else {
-    turnRed(); // Incorrect password
-  }
-}
-
-// Display the entered number
-void showNumber(int number) {
-  unsigned long startTime = millis();
-  for (unsigned long elapsed = 0; elapsed < 300; elapsed = millis() - startTime) {
-    lightDigit1(number % 10);
-    delay(delayTime);
-    lightDigit2((number / 10) % 10);
-    delay(delayTime);
-    lightDigit3((number / 100) % 10);
-    delay(delayTime);
-    lightDigit4((number / 1000) % 10);
-    delay(delayTime);
-  }
-}
-
-void resetDisplay() {
-  // Clear display
-  for (int i = 0; i < 4; i++) {
-    pickDigit(i + 1);
-    for (int j = 0; j < 7; j++) {
-      digitalWrite(segs[j], HIGH);  // Turn off display
+  void checkCode() {
+    if (enteredCode == correctCode) {
+      turnGreen(); // Correct password
+    } else {
+      turnRed(); // Incorrect password
     }
   }
-}
 
-void pickDigit(int x){
-  digitalWrite(CA1, HIGH);
-  digitalWrite(CA2, HIGH);
-  digitalWrite(CA3, HIGH);
-
-  switch(x){
-    case 1:
-      digitalWrite(CA1, LOW);
-      digitalWrite(CA2, LOW);
-      digitalWrite(CA3, LOW);
-      break;
-    case 2:
-      digitalWrite(CA1, HIGH);
-      digitalWrite(CA2, LOW);
-      digitalWrite(CA3, LOW);
-      break;
-    case 3:
-      digitalWrite(CA1, LOW);
-      digitalWrite(CA2, HIGH);
-      digitalWrite(CA3, LOW);
-      break;
-    case 4:
-      digitalWrite(CA1, HIGH);
-      digitalWrite(CA2, HIGH);
-      digitalWrite(CA3, LOW);
-      break;
-  }  
-}
-
-void lightDigit1(byte number) {
-  pickDigit(1);
-  lightSegments(number);
-}
-
-void lightDigit2(byte number) {
-  pickDigit(2);
-  lightSegments(number);
-}
-
-void lightDigit3(byte number) {
-  pickDigit(3);
-  lightSegments(number);
-}
-
-void lightDigit4(byte number) {
-  pickDigit(4);
-  lightSegments(number);
-}
-
-void lightSegments(byte number) {
-  for (int i = 0; i < 7; i++) {
-    digitalWrite(segs[i], sSD[number][i]);
+  // Display the entered number
+  void showNumber(int number) {
+    unsigned long startTime = millis();
+    for (unsigned long elapsed = 0; elapsed < 300; elapsed = millis() - startTime) {
+      lightDigit1(number % 10);
+      delay(delayTime);
+      lightDigit2((number / 10) % 10);
+      delay(delayTime);
+      lightDigit3((number / 100) % 10);
+      delay(delayTime);
+      lightDigit4((number / 1000) % 10);
+      delay(delayTime);
+    }
   }
-}
 
-void turnOffRGB() {
-  analogWrite(RED_PIN, 255);   // Turn off red
-  analogWrite(GREEN_PIN, 255); // Turn off green
-  analogWrite(BLUE_PIN, 255);  // Turn off blue
-}
+  void resetDisplay() {
+    // Clear display
+    for (int i = 0; i < 4; i++) {
+      pickDigit(i + 1);
+      for (int j = 0; j < 7; j++) {
+        digitalWrite(segs[j], HIGH);  // Turn off display
+      }
+    }
+  }
 
-void turnRed() {
-  analogWrite(RED_PIN, 0);   // Turn on red
-  analogWrite(GREEN_PIN, 255); // Turn off green
-  analogWrite(BLUE_PIN, 255);  // Turn off blue
-}
+  void pickDigit(int x){
+    digitalWrite(CA1, HIGH);
+    digitalWrite(CA2, HIGH);
+    digitalWrite(CA3, HIGH);
 
-void turnGreen() {
-  analogWrite(RED_PIN, 255);   // Turn off red
-  analogWrite(GREEN_PIN, 0);   // Turn on green
-  analogWrite(BLUE_PIN, 255);  // Turn off blue
-}
+    switch(x){
+      case 1:
+        digitalWrite(CA1, LOW);
+        digitalWrite(CA2, LOW);
+        digitalWrite(CA3, LOW);
+        break;
+      case 2:
+        digitalWrite(CA1, HIGH);
+        digitalWrite(CA2, LOW);
+        digitalWrite(CA3, LOW);
+        break;
+      case 3:
+        digitalWrite(CA1, LOW);
+        digitalWrite(CA2, HIGH);
+        digitalWrite(CA3, LOW);
+        break;
+      case 4:
+        digitalWrite(CA1, HIGH);
+        digitalWrite(CA2, HIGH);
+        digitalWrite(CA3, LOW);
+        break;
+    }  
+  }
 
-```
+  void lightDigit1(byte number) {
+    pickDigit(1);
+    lightSegments(number);
+  }
+
+  void lightDigit2(byte number) {
+    pickDigit(2);
+    lightSegments(number);
+  }
+
+  void lightDigit3(byte number) {
+    pickDigit(3);
+    lightSegments(number);
+  }
+
+  void lightDigit4(byte number) {
+    pickDigit(4);
+    lightSegments(number);
+  }
+
+  void lightSegments(byte number) {
+    for (int i = 0; i < 7; i++) {
+      digitalWrite(segs[i], sSD[number][i]);
+    }
+  }
+
+  void turnOffRGB() {
+    analogWrite(RED_PIN, 255);   // Turn off red
+    analogWrite(GREEN_PIN, 255); // Turn off green
+    analogWrite(BLUE_PIN, 255);  // Turn off blue
+  }
+
+  void turnRed() {
+    analogWrite(RED_PIN, 0);   // Turn on red
+    analogWrite(GREEN_PIN, 255); // Turn off green
+    analogWrite(BLUE_PIN, 255);  // Turn off blue
+  }
+
+  void turnGreen() {
+    analogWrite(RED_PIN, 255);   // Turn off red
+    analogWrite(GREEN_PIN, 0);   // Turn on green
+    analogWrite(BLUE_PIN, 255);  // Turn off blue
+  }
+
+  ```
