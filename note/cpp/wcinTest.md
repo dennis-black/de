@@ -53,122 +53,122 @@ int main()
 
 ### Windows 程式碼改寫
 1. 註解部分程式碼並且更正程式碼如下，需要為標準輸入與標準輸出特別設定編碼模式，如程式碼中的選擇1與選擇2，執行時選定其中一組並註解掉另外一組
-```cpp
-#include <iostream>
-#include <fcntl.h>
-using namespace std;
+    ```cpp
+    #include <iostream>
+    #include <fcntl.h>
+    using namespace std;
 
-int main()
-{
-    // 選擇1
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    _setmode(_fileno(stdin), _O_U16TEXT);
-    // 選擇2
-    // _setmode(_fileno(stdout), _O_U8TEXT);
-    // _setmode(_fileno(stdin), _O_U16TEXT);
-    
-    // 結論：輸入時必須使用 U16 的編碼
- 
-    wstring fruits[5] = {L"蘋果", L"香蕉", L"櫻桃", L"榴槤", L"蓮霧"};
-    int prices[5] = {15, 20, 2, 40, 10};
- 
-    wstring fruitName;
-    bool found=found;
-   
-    wcout << L"請輸入水果名稱: ";
-    wcin >> fruitName;
-    
-    for(int i=0;i<5;i++)
+    int main()
     {
-        if(fruitName.compare(fruits[i])==0)
+        // 選擇1
+        _setmode(_fileno(stdout), _O_U16TEXT);
+        _setmode(_fileno(stdin), _O_U16TEXT);
+        // 選擇2
+        // _setmode(_fileno(stdout), _O_U8TEXT);
+        // _setmode(_fileno(stdin), _O_U16TEXT);
+        
+        // 結論：輸入時必須使用 U16 的編碼
+    
+        wstring fruits[5] = {L"蘋果", L"香蕉", L"櫻桃", L"榴槤", L"蓮霧"};
+        int prices[5] = {15, 20, 2, 40, 10};
+    
+        wstring fruitName;
+        bool found=found;
+    
+        wcout << L"請輸入水果名稱: ";
+        wcin >> fruitName;
+        
+        for(int i=0;i<5;i++)
         {
-            wcout << L"價格為" << prices[i] << L"元" << endl;
-            found = true;
+            if(fruitName.compare(fruits[i])==0)
+            {
+                wcout << L"價格為" << prices[i] << L"元" << endl;
+                found = true;
+            }
         }
+    
+        if (!found)
+        {
+            wcout << fruitName << endl; // 檢查能不能正常顯示使用者所輸入的內容
+            wcout << L"找不到對應的水果價格!" << endl;
+        }
+        return 0;
     }
- 
-    if (!found)
-    {
-        wcout << fruitName << endl; // 檢查能不能正常顯示使用者所輸入的內容
-        wcout << L"找不到對應的水果價格!" << endl;
-    }
-    return 0;
-}
 
-```
-執行結果：
-```
-PS C:\Users\dennis\testField> g++ .\test.cpp
-PS C:\Users\dennis\testField> .\a.exe
-請輸入水果名稱: 蘋果
-價格為15元
-PS C:\Users\dennis\testField> .\a.exe
-請輸入水果名稱: 香蕉
-價格為20元
-PS C:\Users\dennis\testField> .\a.exe
-請輸入水果名稱: 蓮霧
-價格為10元
-PS C:\Users\dennis\testField> .\a.exe
-請輸入水果名稱: 租大鴿  
-租大鴿
-找不到對應的水果價格!
-PS C:\Users\dennis\testField> 
-```
+    ```
+    執行結果：
+    ```
+    PS C:\Users\dennis\testField> g++ .\test.cpp
+    PS C:\Users\dennis\testField> .\a.exe
+    請輸入水果名稱: 蘋果
+    價格為15元
+    PS C:\Users\dennis\testField> .\a.exe
+    請輸入水果名稱: 香蕉
+    價格為20元
+    PS C:\Users\dennis\testField> .\a.exe
+    請輸入水果名稱: 蓮霧
+    價格為10元
+    PS C:\Users\dennis\testField> .\a.exe
+    請輸入水果名稱: 租大鴿  
+    租大鴿
+    找不到對應的水果價格!
+    PS C:\Users\dennis\testField> 
+    ```
 2. 編譯並執行
 
 ### MacOS 程式碼改寫
 1. 註解部分程式碼並且更正程式碼如下，在 wcin 與 wcout 分別設定使用了 code convert 支援寬字元且於輸入與輸出皆使用 utf8 的編碼方式
-```cpp
-#include <iostream>
-#include <codecvt>
-using namespace std;
+    ```cpp
+    #include <iostream>
+    #include <codecvt>
+    using namespace std;
 
-int main()
-{
-    locale utf8_locale(locale(), new codecvt_utf8<wchar_t>());
-    std::wcout.imbue(utf8_locale);
-    std::wcin.imbue(utf8_locale);
- 
-    wstring fruits[5] = {L"蘋果", L"香蕉", L"櫻桃", L"榴槤", L"蓮霧"};
-    int prices[5] = {15, 20, 2, 40, 10};
- 
-    wstring fruitName;
-    bool found=found;
-   
-    wcout << L"請輸入水果名稱: ";
-    wcin >> fruitName;
+    int main()
+    {
+        locale utf8_locale(locale(), new codecvt_utf8<wchar_t>());
+        std::wcout.imbue(utf8_locale);
+        std::wcin.imbue(utf8_locale);
     
-    for(int i=0;i<5;i++)
-    {
-        if(fruitName.compare(fruits[i])==0)
+        wstring fruits[5] = {L"蘋果", L"香蕉", L"櫻桃", L"榴槤", L"蓮霧"};
+        int prices[5] = {15, 20, 2, 40, 10};
+    
+        wstring fruitName;
+        bool found=found;
+    
+        wcout << L"請輸入水果名稱: ";
+        wcin >> fruitName;
+        
+        for(int i=0;i<5;i++)
         {
-            wcout << L"價格為" << prices[i] << L"元" << endl;
-            found = true;
+            if(fruitName.compare(fruits[i])==0)
+            {
+                wcout << L"價格為" << prices[i] << L"元" << endl;
+                found = true;
+            }
         }
+    
+        if (!found)
+        {
+            wcout << fruitName << endl; // 檢查能不能正常顯示使用者所輸入的內容
+            wcout << L"找不到對應的水果價格!" << endl;
+        }
+        return 0;
     }
- 
-    if (!found)
-    {
-        wcout << fruitName << endl; // 檢查能不能正常顯示使用者所輸入的內容
-        wcout << L"找不到對應的水果價格!" << endl;
-    }
-    return 0;
-}
-```
-執行結果：
-```
-~/dennisSync/DE/coding/testField/cpp_wideChar g++ test.cpp                               
-~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
-請輸入水果名稱: 蘋果
-價格為15元
-~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
-請輸入水果名稱: 香蕉
-價格為20元
-~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
-請輸入水果名稱: 蓮霧
-價格為10元
-~/dennisSync/DE/coding/testField/cpp_wideChar 
-```
+    ```
+    執行結果：
+    ```
+    ~/dennisSync/DE/coding/testField/cpp_wideChar g++ test.cpp                               
+    ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
+    請輸入水果名稱: 蘋果
+    價格為15元
+    ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
+    請輸入水果名稱: 香蕉
+    價格為20元
+    ~/dennisSync/DE/coding/testField/cpp_wideChar ./a.out                                     
+    請輸入水果名稱: 蓮霧
+    價格為10元
+    ~/dennisSync/DE/coding/testField/cpp_wideChar 
+    ```
 
 2. 編譯並執行
 
