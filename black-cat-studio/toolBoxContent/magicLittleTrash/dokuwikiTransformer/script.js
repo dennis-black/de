@@ -47,5 +47,12 @@ function exportDokuwiki() {
         console.error("Element with id 'transfered' not found.");
     }
 
+    Swal.fire({
+        title: "請注意",
+        text: "請記得為使用者輸入的區塊加上標記才能正確渲染使用者輸入的內容",
+        icon: "warning",
+        confirmButtonText: "okay"
+      });
+
     return null;
 }
